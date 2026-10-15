@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="navy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- 要換：頁面標題、分享時顯示的描述 -->
+<title>不動產活化入門｜金牛男庭駿</title>
+<meta name="description" content="了解資產活化核心觀念、活化前後差異，免費整理自己的資產盤點表。">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── 版型：沿用 2026-08-06-chatgpt-setup／2026-10-01-7-habits 的米色＋金橘 ── */
+:root{
+  --gold:#D4902A; --gold-bright:#E8A94A; --gold-dim:rgba(var(--a-rgb),0.30);
+  --bg:#F4F1EA; --bg2:#FBF8F2; --card:#FFFFFF; --card2:#FAF6EE;
+  --code:#12161f; --code-tx:#e6eaf2;
+  --text:#2c2a26; --dim:#6d6a62; --faint:#a8a39a; --ink:#2a2620;
+  --line:rgba(0,0,0,0.12);
+  --ok:#4a7c3f; --ok-bg:rgba(74,124,63,0.07); --ok-line:rgba(74,124,63,0.25);
+  --no:#b1431f; --no-bg:rgba(200,70,40,0.06); --no-line:rgba(200,70,40,0.22);
+  --dark:linear-gradient(160deg,#15110b 0%,#241a0e 100%);
+  --r-md:16px; --r-lg:22px; --pill:50px;
+  --bounce:400ms cubic-bezier(0.34,1.56,0.64,1);
+  --a-rgb:212,144,42; --sh-rgb:120,90,30; --bg-rgb:244,241,234; --on-accent:#1a1406;
+  --serif:"Noto Serif TC",serif; --sans:"Noto Sans TC","Inter",sans-serif; --mono:"JetBrains Mono",monospace;
+}
+/* ── 配色：改 <html data-theme="…"> 就會換。gold 米金／green 墨綠／navy 海軍藍／rose 乾燥玫瑰 ── */
+html[data-theme="green"]{--gold:#3F7D5C;--gold-bright:#5B9A77;--a-rgb:63,125,92;--bg:#EEF2EC;--bg2:#F7F9F5;--card2:#F3F6F1;--bg-rgb:238,242,236;--sh-rgb:40,70,50;--ink:#1f2a24;--on-accent:#ffffff;}
+html[data-theme="navy"]{--gold:#2F5D8C;--gold-bright:#4A7AAA;--a-rgb:47,93,140;--bg:#EDF1F5;--bg2:#F7F9FB;--card2:#F2F5F9;--bg-rgb:237,241,245;--sh-rgb:30,50,80;--ink:#1d2632;--on-accent:#ffffff;}
+html[data-theme="rose"]{--gold:#B5656B;--gold-bright:#C98389;--a-rgb:181,101,107;--bg:#F6EFEE;--bg2:#FBF7F6;--card2:#F8F1F0;--bg-rgb:246,239,238;--sh-rgb:110,60,60;--ink:#2e2324;--on-accent:#ffffff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);color:var(--text);line-height:1.85;overflow-x:hidden;background:var(--bg);
+  background-image:radial-gradient(118% 54% at 50% 0%, rgba(var(--a-rgb),0.16) 0%, rgba(var(--a-rgb),0.05) 34%, rgba(var(--bg-rgb),0) 62%);
+  background-attachment:fixed;}
+.glow{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.g1{position:absolute;width:min(60vw,680px);height:min(60vw,680px);border-radius:50%;background:radial-gradient(circle, rgba(var(--a-rgb),0.13), rgba(var(--a-rgb),0));top:-18%;right:-14%;filter:blur(20px);}
+.g2{position:absolute;width:min(50vw,560px);height:min(50vw,560px);border-radius:50%;background:radial-gradient(circle, rgba(var(--a-rgb),0.12), rgba(var(--a-rgb),0));bottom:-14%;left:-12%;filter:blur(22px);}
+.wrap{max-width:720px;margin:0 auto;position:relative;}
+.js .fade{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease;}
+.fade.vis{opacity:1;transform:translateY(0);}
+a{color:var(--gold);text-decoration:none;}
+.g{color:var(--gold);}
+
+/* ═════ ① 懸浮按鈕：電腦版掛右側、手機版浮在底部；滑到研究所介紹時自動收起 ═════ */
+.float-cta{position:fixed;z-index:40;transition:opacity .3s ease,transform .3s ease;}
+.float-cta.hide{opacity:0;pointer-events:none;}
+.fc-card{display:none;}
+.fc-pill{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:var(--on-accent);font-weight:900;font-size:15px;padding:14px 26px;border-radius:var(--pill);box-shadow:0 10px 28px rgba(var(--sh-rgb),0.32);white-space:nowrap;}
+.fc-pill .ar{transition:transform .2s;}
+.fc-pill:hover .ar{transform:translateX(3px);}
+/* 手機／平板：底部置中 */
+@media(max-width:1119px){
+  .float-cta{left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);}
+  .float-cta.hide{transform:translate(-50%,20px);}
+  body{padding-bottom:84px;}
+}
+/* 電腦：右側卡片 */
+@media(min-width:1120px){
+  .float-cta{top:120px;right:max(24px,calc((100vw - 720px)/2 - 272px));width:240px;}
+  .float-cta.hide{transform:translateX(16px);}
+  .fc-pill{display:none;}
+  .fc-card{display:block;background:linear-gradient(165deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--gold-dim);border-left:3px solid var(--gold);border-radius:var(--r-md);padding:20px 20px 22px;box-shadow:0 10px 34px rgba(var(--sh-rgb),0.13);}
+  .fc-card .k{font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--gold);margin-bottom:10px;font-weight:500;}
+  .fc-card h4{font-family:var(--serif);font-weight:900;font-size:17px;line-height:1.5;color:var(--ink);margin-bottom:9px;}
+  .fc-card p{font-size:12.5px;color:var(--dim);line-height:1.7;margin-bottom:16px;}
+  .fc-card a{display:block;text-align:center;background:var(--gold);color:var(--on-accent);font-weight:900;font-size:14px;padding:12px 14px;border-radius:var(--pill);box-shadow:0 6px 18px rgba(var(--a-rgb),0.26);transition:transform var(--bounce);}
+  .fc-card a:hover{transform:translateY(-2px);}
+}
+
+/* ═════ 開頭：只交代「這頁是什麼」，自介移到最下面 ═════ */
+.hero{position:relative;z-index:1;padding:60px 30px 36px;}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--gold);margin-bottom:20px;font-weight:500;}
+.hero h1{font-family:var(--serif);font-weight:900;font-size:36px;line-height:1.36;margin-bottom:14px;color:var(--ink);}
+.hero .h-sub{font-family:var(--serif);font-weight:700;font-size:15px;color:var(--gold);margin-bottom:14px;}
+.hero-sub{font-size:15px;color:var(--dim);line-height:1.85;margin-bottom:24px;}
+/* 這頁有什麼：數字跟單位寫在一起，點了直接跳到那一段 */
+.toc{margin-bottom:24px;}
+.toc .tt{font-size:12px;font-weight:700;color:var(--dim);letter-spacing:0.05em;margin-bottom:8px;}
+.toc ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;}
+.toc a{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--gold-dim);border-radius:var(--pill);padding:7px 15px;font-size:14px;font-weight:700;color:var(--ink);transition:border-color .2s;}
+.toc a:hover{border-color:var(--gold);}
+.toc a b{font-family:"Inter";font-weight:800;color:var(--gold);}
+.toc a i{font-style:normal;color:var(--gold);font-size:12px;}
+/* 自介卡：全站固定。上面一句是對讀者的承諾，下面是證明 */
+.mid-intro{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:var(--r-md);padding:16px 20px;margin-bottom:24px;}
+.mid-intro .slogan{font-family:var(--serif);font-weight:900;font-size:min(18px,4vw);white-space:nowrap;line-height:1.45;color:var(--ink);margin-top:12px;}
+
+.mid-intro .who{display:flex;align-items:center;gap:14px;}
+.mid-intro .who img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+.mid-intro .nm{font-weight:900;font-size:16px;line-height:1.3;color:var(--ink);}
+.mid-intro .tt2{font-size:12px;color:var(--dim);line-height:1.4;}
+.mid-intro .proof{display:flex;align-items:flex-end;gap:14px;border-top:1px dashed var(--line);margin-top:12px;padding-top:11px;}
+.mid-intro .num{flex-shrink:0;line-height:1.2;}
+.mid-intro .num .d{font-size:11px;color:var(--dim);}
+.mid-intro .num .v{font-family:"Inter";font-weight:800;font-size:18px;color:var(--gold);white-space:nowrap;}
+.mid-intro .txt{font-size:14.5px;line-height:1.6;color:var(--text);padding-left:14px;border-left:1px solid var(--line);}
+.mid-intro .txt b{color:var(--ink);}
+.m-br{display:none;}
+
+/* ═════ ② 乾貨區 ═════ */
+.sec{position:relative;z-index:1;padding:38px 30px;border-top:1px solid var(--line);}
+.sec-tag{display:inline-block;background:rgba(var(--a-rgb),0.14);color:var(--gold);font-size:12px;font-weight:700;padding:5px 15px;border:1px solid var(--gold-dim);border-radius:var(--pill);margin-bottom:16px;letter-spacing:0.05em;}
+.sec h2{font-family:var(--serif);font-weight:900;font-size:24px;line-height:1.42;margin-bottom:14px;color:var(--ink);}
+.sec>p{font-size:15px;color:var(--text);line-height:1.9;margin-bottom:14px;}
+.tipline{font-size:13.5px;color:var(--dim);line-height:1.75;border-left:2px solid var(--gold-dim);padding-left:14px;margin:13px 0 2px;}
+.tipline b{color:var(--gold);}
+
+.tblwrap{overflow-x:auto;margin:12px 0 4px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--card);}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;}
+.tbl th{background:rgba(var(--a-rgb),0.12);color:var(--gold);font-weight:700;text-align:left;padding:10px 13px;border-bottom:2px solid var(--gold-dim);white-space:nowrap;}
+.tbl td{padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6;}
+.tbl td:first-child{font-family:"Inter";font-weight:800;color:var(--gold);}
+.tbl td:nth-child(2){font-weight:700;color:var(--ink);white-space:nowrap;}
+.tbl tr:last-child td{border-bottom:none;}
+
+.acc{display:flex;flex-direction:column;gap:10px;}
+details.ch{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;}
+details.ch[open]{border-color:var(--gold-dim);box-shadow:0 4px 18px rgba(var(--sh-rgb),0.07);}
+details.ch summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:13px;padding:16px 18px;user-select:none;}
+details.ch summary::-webkit-details-marker{display:none;}
+.ch-n{flex-shrink:0;min-width:34px;height:30px;border-radius:8px;background:rgba(var(--a-rgb),0.14);border:1px solid var(--gold-dim);color:var(--gold);font-family:var(--mono);font-size:12px;display:flex;align-items:center;justify-content:center;}
+.ch-t{flex:1;font-weight:700;font-size:14.5px;line-height:1.4;}
+.ch-t .en{font-weight:400;color:var(--dim);font-size:12.5px;}
+.ch-mk{flex-shrink:0;width:22px;height:22px;position:relative;}
+.ch-mk::before,.ch-mk::after{content:"";position:absolute;background:var(--gold);border-radius:2px;transition:transform .25s ease,opacity .25s;}
+.ch-mk::before{top:10px;left:4px;width:14px;height:2px;}
+.ch-mk::after{top:4px;left:10px;width:2px;height:14px;}
+details.ch[open] .ch-mk::after{transform:rotate(90deg);opacity:0;}
+.ch-body{padding:6px 18px 18px;border-top:1px solid var(--line);}
+.ch-body p{font-size:14px;line-height:1.82;margin:10px 0;}
+.pos{background:rgba(var(--a-rgb),0.08);border:1px solid var(--gold-dim);border-radius:12px;padding:11px 14px;margin:10px 0 2px;font-size:13.6px;line-height:1.72;}
+.pos b{color:var(--gold);}
+.judge{border-radius:12px;padding:11px 14px;margin:7px 0;font-size:13.6px;line-height:1.72;}
+.judge.no{background:var(--no-bg);border:1px solid var(--no-line);color:#7a3320;}
+.judge.ok{background:var(--ok-bg);border:1px solid var(--ok-line);color:#2f5228;}
+.judge .jl{font-weight:700;font-size:11.5px;letter-spacing:0.05em;display:block;margin-bottom:2px;}
+.judge.no .jl{color:var(--no);}
+.judge.ok .jl{color:var(--ok);}
+
+.cp{background:var(--code);border:2px solid var(--gold);border-radius:var(--r-md);padding:16px;margin:12px 0 2px;position:relative;box-shadow:0 10px 34px rgba(var(--sh-rgb),0.16);}
+.cp .pl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.08em;color:var(--gold-bright);margin-bottom:11px;max-width:calc(100% - 96px);}
+.cp pre{font-family:var(--mono);font-size:12px;line-height:1.85;color:var(--code-tx);white-space:pre-wrap;word-break:break-word;}
+.cp .ph{color:var(--gold-bright);}
+.copy-btn{position:absolute;top:11px;right:11px;background:var(--gold);border:1px solid var(--gold);color:var(--on-accent);font-family:var(--sans);font-size:12px;font-weight:700;padding:7px 16px;border-radius:50px;cursor:pointer;}
+
+.ck{display:flex;gap:11px;align-items:flex-start;padding:9px 0;cursor:pointer;border-bottom:1px dashed var(--line);}
+.ck:last-of-type{border-bottom:none;}
+.ck input{appearance:none;-webkit-appearance:none;flex-shrink:0;width:19px;height:19px;margin-top:4px;border:2px solid var(--gold-dim);border-radius:5px;background:var(--bg2);cursor:pointer;position:relative;transition:all .18s;}
+.ck input:checked{background:var(--gold);border-color:var(--gold);}
+.ck input:checked::after{content:"";position:absolute;left:5px;top:1px;width:5px;height:10px;border:solid var(--on-accent);border-width:0 2.5px 2.5px 0;transform:rotate(45deg);}
+.ck span{font-size:14.5px;line-height:1.7;}
+.ck input:checked + span{color:var(--faint);text-decoration:line-through;}
+.cklist{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:var(--r-md);padding:8px 18px;}
+
+/* ═════ ③ 研究所介紹：跟上面同一套米色＋白卡，不另外換成深色 ═════ */
+.inst{position:relative;z-index:1;padding:44px 30px 40px;border-top:1px solid var(--line);}
+.inst .kk{display:inline-block;background:rgba(var(--a-rgb),0.14);color:var(--gold);font-size:12px;font-weight:700;padding:5px 15px;border:1px solid var(--gold-dim);border-radius:var(--pill);margin-bottom:16px;letter-spacing:0.05em;}
+.inst h2{font-family:var(--serif);font-weight:900;font-size:24px;line-height:1.42;margin-bottom:16px;color:var(--ink);}
+.inst h2 .g{color:var(--gold);}
+.inst .lead{font-family:var(--serif);font-weight:700;font-size:16.5px;line-height:1.7;color:var(--ink);margin-bottom:16px;padding-left:14px;border-left:3px solid var(--gold);}
+.founder{margin-bottom:24px;}
+.founder p{font-size:14.5px;line-height:1.9;color:var(--text);margin-bottom:10px;}
+.founder p b{color:var(--gold);}
+.big{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 30px;}
+.big .b{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:var(--r-md);padding:16px 10px;text-align:center;}
+.big .bn{font-family:"Inter";font-weight:800;font-size:24px;color:var(--gold);line-height:1.1;}
+.big .bl{font-size:12px;color:var(--dim);margin-top:6px;line-height:1.5;}
+.inst h3{font-family:var(--serif);font-weight:900;font-size:18px;margin:6px 0 14px;color:var(--ink);}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:30px;}
+.tool{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;}
+.tool.main{grid-column:1 / -1;border-color:var(--gold-dim);border-left:3px solid var(--gold);background:linear-gradient(165deg,var(--card) 0%,var(--card2) 100%);}
+.tool .tn{font-weight:900;font-size:15px;color:var(--ink);margin-bottom:4px;}
+.tool .tn em{font-style:normal;font-size:11px;font-weight:700;color:var(--on-accent);background:var(--gold);border-radius:50px;padding:1px 8px;margin-left:6px;vertical-align:2px;}
+.tool .tn em.soon{background:rgba(0,0,0,0.08);color:var(--dim);}
+.tool .td{font-size:13px;color:var(--dim);line-height:1.7;}
+.qa{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:4px 18px 16px;margin-bottom:30px;}
+.qa .q{font-family:var(--serif);font-weight:700;font-size:15px;color:var(--ink);margin:14px 0 4px;}
+.qa .q::before{content:"Q";color:var(--gold);font-family:"Inter";font-weight:800;margin-right:8px;}
+.qa .a{font-size:13.8px;color:var(--dim);line-height:1.8;}
+.fit .f{display:flex;gap:10px;font-size:14px;line-height:1.7;margin-bottom:9px;color:var(--text);}
+.fit .f::before{content:"\2714";color:var(--gold);font-weight:700;flex-shrink:0;}
+.btn-wrap{text-align:center;margin-top:30px;background:linear-gradient(165deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--gold-dim);border-radius:var(--r-lg);padding:26px 18px;}
+.skbtn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--on-accent);border-radius:var(--pill);padding:17px 46px;font-weight:900;font-size:18px;box-shadow:0 8px 28px rgba(var(--a-rgb),0.30);transition:transform var(--bounce);position:relative;overflow:hidden;}
+.skbtn:hover{transform:translateY(-3px);}
+.skbtn::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent);transform:skewX(-25deg);animation:shine 3.4s ease-in-out infinite;}
+@keyframes shine{0%{left:-100%;}22%{left:160%;}100%{left:160%;}}
+.btn-note{margin-top:14px;font-size:12.5px;color:var(--dim);}
+
+.footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:22px 30px 40px;text-align:center;}
+.footer .fa{font-style:italic;font-size:14px;color:var(--gold);font-weight:700;}
+.footer .fc{font-size:11px;color:var(--faint);margin-top:8px;line-height:1.7;}
+
+/* ── 手機版 ── */
+@media(max-width:600px){
+  .hero{padding:40px 20px 28px;}
+  .hero h1{font-size:28px;}
+  .sec{padding:32px 20px;}
+  .sec h2{font-size:21px;}
+  .mid-intro .proof{flex-direction:column;align-items:flex-start;gap:6px;}
+  .mid-intro .num{display:flex;align-items:baseline;gap:8px;}
+  .mid-intro .num .d{font-size:13px;}
+  .mid-intro .txt{padding-left:0;border-left:none;}
+  .m-br{display:inline;}
+  .tbl{font-size:13px;}
+  .tbl th,.tbl td{padding:10px 10px;}
+  details.ch summary{padding:15px 16px;align-items:flex-start;}
+  .ch-t .en{display:block;margin-top:3px;}
+  .ch-mk{margin-top:4px;}
+  .inst{padding:34px 20px 32px;}
+  .inst h2{font-size:21px;}
+  .founder p{font-size:min(14.5px,calc((100vw - 40px) / 26.5));}
+  .big .bn{font-size:20px;}
+  .tools{grid-template-columns:1fr;}
+  .skbtn{font-size:16px;padding:15px 26px;white-space:nowrap;}
+  .footer{padding:20px 20px 36px;}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.className+=' js';</script>
+<div class="glow"><div class="g1"></div><div class="g2"></div></div>
+
+<!-- ═════ ① 懸浮按鈕：電腦版右側卡片、手機版底部按鈕。滑到最下面「關於我」時自動收起 ═════ -->
+<div class="float-cta" id="float-cta">
+  <a class="fc-pill" href="https://lin.ee/S8QUSv8" target="_blank" rel="noopener">私訊我，了解資產配置 <span class="ar">→</span></a>
+  <div class="fc-card">
+    <div class="k">NEXT STEP</div>
+    <h4>有資產是一回事，<br><span class="g">懂得運用資產是另一回事。</span></h4>
+    <p>這份指南先帶你了解資產活化。如果想知道自己的房產有哪些合適的規劃方向，我可以陪你一起評估。</p>
+    <a href="https://lin.ee/S8QUSv8" target="_blank" rel="noopener">私訊我，了解資產配置</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═════ 開頭：這頁是什麼 ═════ -->
+  <header class="hero">
+    <!-- 要換：kicker／標題／副標／說明／這頁有什麼 -->
+    <div class="kicker">FREE GUIDE · 不動產活化入門</div>
+    <h1>你明明有房子，<br><span class="g">為什麼還是只能靠薪水過生活？</span></h1>
+    <div class="h-sub">有資產，不代表你已經懂得運用資產。</div>
+    <p class="hero-sub">很多人辛苦工作、存錢買房，明明累積了一定的資產，生活卻沒有因此變得更自由。其實問題不一定是你賺得不夠多，而是你可能還沒想過，現在擁有的資產，還有哪些運用的可能。這份免費指南帶你了解核心觀念、活化前後的差別，再用自我健檢找出值得檢視的地方。</p>
+    <!-- 自介卡：放在說明之後、「這頁有」之前 -->
+    <div class="mid-intro">
+      <div class="who">
+        <img src="data:image/jpeg;base64,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" alt="金牛男庭駿">
+        <div><div class="nm">金牛男庭駿</div><div class="tt2">財務顧問｜資產配置</div></div>
+      </div>
+      <div class="slogan">人生就是一個「體驗的疊加」。</div>
+      <div class="proof"><div class="txt"><b>協助想建立被動收入的人，了解如何讓資產發揮更多價值。</b><br class="m-br">做好財務規劃，才有機會為人生創造更多選擇。</div>
+      </div>
+    </div>
+
+    <nav class="toc">
+      <div class="tt">這頁有</div>
+      <ul>
+        <li><a href="#s-concepts"><b>3</b> 個核心觀念<i>↓</i></a></li>
+        <li><a href="#s-comparison">活化前後對比<i>↓</i></a></li>
+        <li><a href="#s-check">免費資產健檢<i>↓</i></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ② 乾貨區：依已確認的 V3 文案 -->
+<section class="sec fade" id="s-concepts"><span class="sec-tag">先給答案 · 速查表</span><h2>有房產的人，<br><span class="g">一定要懂的 3 個觀念</span></h2><p>你知道自己的房子值多少錢，但你知道它在你的財務規劃裡，扮演什麼角色嗎？</p><div class="tblwrap"><table class="tbl"><thead><tr><th>#</th><th>核心觀念</th><th>你需要知道的事</th></tr></thead><tbody><tr><td>1</td><td>資產價值</td><td>房子值多少錢，不等於每個月有多少錢可以使用</td></tr><tr><td>2</td><td>現金流</td><td>重點是每個月實際流進、流出多少資金</td></tr><tr><td>3</td><td>資產活化</td><td>重新檢視資產的使用方式，讓它更符合你的財務與生活目標</td></tr></tbody></table></div><div class="pos"><b>最重要的一句話：</b>資產多，不一定代表現金流充足；房子漲價，也不代表生活就一定會更輕鬆。</div><p>這就是為什麼，有些人名下有房產，卻還是每天為收入煩惱。</p></section>
+
+<section class="sec fade"><span class="sec-tag">三個常見迷思 · 點開看</span><h2>你以為的資產活化，<br><span class="g">可能跟真正的意思不一樣</span></h2><div class="acc"><details class="ch" open><summary><span class="ch-n">1</span><span class="ch-t">房子有增值，就代表財務狀況變好了？</span><span class="ch-mk"></span></summary><div class="ch-body"><div class="judge no"><span class="jl">常見想法</span>房價上漲，我就是越來越有錢。</div><div class="judge ok"><span class="jl">更完整的觀念</span>房產價值增加，不等於每月可運用的現金增加。還需要一起檢視收入、支出與生活目標。</div></div></details><details class="ch"><summary><span class="ch-n">2</span><span class="ch-t">要等很有錢，才需要做資產配置？</span><span class="ch-mk"></span></summary><div class="ch-body"><div class="judge no"><span class="jl">常見想法</span>等我賺更多錢，再來做規劃。</div><div class="judge ok"><span class="jl">更完整的觀念</span>不管資產多寡，都可以先了解自己的資源、現金流，以及未來想達成的目標。</div></div></details><details class="ch"><summary><span class="ch-n">3</span><span class="ch-t">資產活化，就是讓錢越多越好？</span><span class="ch-mk"></span></summary><div class="ch-body"><div class="judge no"><span class="jl">常見想法</span>只要能增加收入，就是好的資產配置。</div><div class="judge ok"><span class="jl">更完整的觀念</span>除了收入，還要考慮成本、風險、生活需求與資產運用效率。適合別人的方式，不一定適合你。</div></div></details></div><div class="tipline"><b>記住這句話：</b>資產活化不是看別人做什麼就跟著做，而是先知道自己要什麼。</div></section>
+
+<section class="sec fade" id="s-comparison"><span class="sec-tag">核心內容 · 活化前後對比</span><h2>資產活化前後，<br><span class="g">差別到底在哪？</span></h2><p>很多人會覺得：「房子放著不是很好嗎？為什麼還要重新規劃？」</p><p>其實不是每間房子都需要改變用途，也不是現在的安排就一定不好。真正的差別，是你有沒有認真了解自己的資產，是否符合現在的生活需求。</p><div class="tblwrap"><table class="tbl"><thead><tr><th>方向</th><th>尚未規劃活化</th><th>經過活化評估</th></tr></thead><tbody><tr><td>01</td><td>資產認知</td><td>從只知道有房產，到了解房產在整體財務中的角色</td></tr><tr><td>02</td><td>現金流</td><td>從可能主要靠薪水，到評估其他現金流來源的可能</td></tr><tr><td>03</td><td>資產運用</td><td>從以持有累積為主，到同時檢視資產運用效率</td></tr><tr><td>04</td><td>生活目標</td><td>從有想法但沒具體計畫，到連結財務條件與生活目標</td></tr><tr><td>05</td><td>風險管理</td><td>從可能只注意房產價值，到一起檢視成本、限制與風險</td></tr><tr><td>06</td><td>時間自由</td><td>從依賴既有工作收入，到評估增加長期財務彈性的可能</td></tr></tbody></table></div><div class="pos"><b>重點：</b>不是活化後一定會增加收入。真正的差別是，完整評估後更清楚資產適合怎麼安排。有些人適合調整，有些人可能更適合維持現況。</div></section>
+
+<section class="sec fade"><span class="sec-tag">我的經歷 · 為什麼重視資產活化</span><h2>為什麼我開始重視<br><span class="g">資產活化？</span></h2><p>以前我在殯葬業做直銷，曾經帶領過上千人的團隊。但那時候，每天都在處理團隊的事情，根本沒有多少時間可以好好休息、陪伴家人。</p><p>後來公司突然宣布轉型，我才意識到，原來過去辛苦累積的成果，也可能因為外部環境改變而受到影響。</p><p><b>「如果我們一直要用自己的時間去維持收入，那什麼才是真正的時間自由？」</b></p><p>後來我開始接觸財務規劃與資產配置。我慢慢發現，資產配置不只是為了賺更多錢，而是希望透過更好的財務安排，讓自己有機會做更多想做的事情。</p><div class="pos"><b>人生就是一個「體驗的疊加」。</b><br>如果人生只有工作、賺錢、繳帳單，最後卻沒有時間體驗生活，那我們努力賺錢的意義是什麼？我希望大家開始思考：已經擁有的資產，能不能更好地支持自己想過的人生。</div></section>
+
+<section class="sec fade" id="s-check"><span class="sec-tag">免費工具 · 初步自我評估</span><h2>找到你的<br><span class="g">資產規劃盲點</span></h2><p>這一塊不是要你馬上做任何財務決定，而是先知道，自己目前最值得檢視的是哪一件事。</p><div class="acc"><details class="ch" open><summary><span class="ch-n">A</span><span class="ch-t">資產認知<span class="en"> · 我有房產，但不清楚它在整體財務規劃中的作用。</span></span><span class="ch-mk"></span></summary><div class="ch-body"><div class="pos"><b>你可以先做什麼？</b><br>先整理房產用途、目前價值、固定持有支出與其他資產，了解手上的資源。</div><p><b>再想想這個問題：</b>你的房產目前在整體財務裡，占了多大的比例？</p></div></details><details class="ch"><summary><span class="ch-n">B</span><span class="ch-t">現金流<span class="en"> · 我有房子，但日常生活還是主要依靠工作收入。</span></span><span class="ch-mk"></span></summary><div class="ch-body"><div class="pos"><b>你可以先做什麼？</b><br>先列出每月各項收入、必要支出與實際可運用資金，找出目前主要依靠的收入來源。</div><p><b>再想想這個問題：</b>如果工作收入降低，你目前的現金流能支撐多久？</p></div></details><details class="ch"><summary><span class="ch-n">C</span><span class="ch-t">生活目標<span class="en"> · 我有一些資產，但沒有把它和退休、家庭或生活目標連結。</span></span><span class="ch-mk"></span></summary><div class="ch-body"><div class="pos"><b>你可以先做什麼？</b><br>先寫下希望改善的生活狀況、預計何時達成，以及需要多少可運用資金。</div><p><b>再想想這個問題：</b>你目前的資產安排，正在支持哪一個具體生活目標？</p></div></details><details class="ch"><summary><span class="ch-n">D</span><span class="ch-t">配置檢視<span class="en"> · 我已經有財務規劃，但不確定還能不能調整。</span></span><span class="ch-mk"></span></summary><div class="ch-body"><div class="pos"><b>你可以先做什麼？</b><br>先檢視資產比例、流動性、成本與風險，再判斷是否需要改變現有安排。</div><p><b>再想想這個問題：</b>如果市場環境或家庭需求改變，你目前的規劃還適用嗎？</p></div></details></div><div class="tipline">看完後，你應該能找到可以先做的第一件事。想進一步判斷自己的房產條件、財務狀況和目標，適合朝哪個方向安排，就需要更完整的個人化評估。</div></section>
+
+<section class="sec fade"><span class="sec-tag">直接複製 · 回去就能使用</span><h2>免費帶走<br><span class="g">資產活化盤點表</span></h2><p>這份盤點表可以讓你先整理現有資產與生活目標。填完之後，你至少會比原本更清楚：自己有什麼、希望改善什麼、還有哪些地方需要了解。</p><div class="cp"><div class="pl">COPY · 我的資產活化盤點表</div><button class="copy-btn" type="button">複製</button><pre id="asset-worksheet">【我的資產活化盤點表】
+1. 我目前擁有的主要資產：【填寫】
+2. 房產目前的用途：【自住／出租／閒置／其他】
+3. 目前每月的主要收入來源：【填寫】
+4. 每月可以自由運用的資金：【填寫】
+5. 我最想改善的財務問題：【填寫】
+6. 我希望未來增加哪些人生選擇：【填寫】
+7. 我最擔心的財務風險：【填寫】</pre></div><div class="pos"><b>你已經完成第一步：</b>整理自己的資產狀況。但知道自己的資產有哪些，跟知道這些資產應該如何安排，是兩件不同的事。</div></section>
+
+<section class="sec fade"><span class="sec-tag">NEXT STEP · 個人化評估</span><h2>你已經了解資產活化，<br><span class="g">但你的房子，適合怎麼規劃？</span></h2><p>看到這裡，你應該已經對資產活化有初步的了解，也知道自己有哪些值得重新檢視的地方。</p><p>但每個人的房產條件、收入狀況、財務目標都不同。有些人適合重新調整資產安排，有些人則可能更適合維持現況。</p><div class="pos"><b>真正重要的不是別人怎麼做，而是你的資產適合怎麼規劃。</b></div><p>如果你想進一步了解自己的資產還有哪些運用可能，我可以依照你的實際狀況，陪你一起盤點與評估。</p><div class="btn-wrap"><a class="skbtn" href="https://lin.ee/S8QUSv8" target="_blank" rel="noopener">私訊我，了解資產配置 →</a><div class="btn-note">留言《財神》，我一對一幫你評估</div></div></section>
+
+  <!-- ═════ ③ 關於我：每一頁都一樣，不跟著乾貨改 ═════ -->
+  <section class="inst" id="institute">
+    <div class="kk">ABOUT · 金牛男庭駿</div>
+    <h2>曾經帶領千人團隊，<br><span class="g">卻發現自己沒有真正的被動收入。</span></h2>
+
+    <p class="lead">透過財務規劃，協助有房產或想建立被動收入的人，了解如何讓現有資產支持自己想過的人生。</p>
+    <div class="founder">
+      <p>以前我在殯葬業做直銷，帶領過上千人的團隊。但每天都要處理團隊、管理人事，真正能夠自由安排的時間其實很有限。直到公司突然宣布轉型，我才開始重新思考：什麼才是真正的時間自由？</p>
+      <p>後來我開始研究房地產、資產配置與現金流規劃，也開始協助別人了解自己的財務狀況。我一直相信，賺錢不是人生唯一的目的。人生就是一個「體驗的疊加」，資產配置是讓自己有機會擁有更多選擇的方法之一。</p>
+    </div>
+
+    <!-- 三個數字：沒有真的數字就整段刪掉，不要編 -->
+    <div class="big">
+      <div class="b"><div class="bn">6 年</div><div class="bl">殯葬業直銷經驗</div></div>
+      <div class="b"><div class="bn">5 年</div><div class="bl">財務顧問經驗</div></div>
+      <div class="b"><div class="bn">1,000+</div><div class="bl">曾帶領團隊人數</div></div>
+    </div>
+
+    <h3>我能幫你什麼？</h3>
+    <div class="tools">
+      <div class="tool main"><div class="tn">不動產活化與資產配置<em>主打</em></div><div class="td">協助盤點現有不動產與其他資產，評估適合自己的運用方向。</div></div>
+      <div class="tool"><div class="tn">被動收入與現金流規劃</div><div class="td">了解收入結構、現金流與長期財務需求。</div></div>
+      <div class="tool"><div class="tn">個人財務健檢</div><div class="td">整理現有財務條件，找出可能需要調整的部分。</div></div>
+    </div>
+
+    <h3>你可能卡在這幾件事</h3>
+    <div class="qa">
+      <div class="q">這是不是詐騙？我的本金會不會不見？</div>
+      <div class="a">我會先讓你了解財務規劃的內容與可能涉及的風險。任何涉及市場變動的安排，都不應保證獲利或完全沒有損失。重點是了解自己的條件與風險承受能力。</div>
+      <div class="q">一定要改變我現在的房產安排嗎？</div>
+      <div class="a">不一定。先了解為什麼需要資產活化，再依照現有資產、現金流與生活目標，判斷有沒有調整必要。不是每個人都需要改變現有安排。</div>
+    </div>
+
+    <h3>適合這樣的人</h3>
+    <div class="fit">
+      <div class="f">名下有房產，希望了解如何讓資產發揮更多功能的人。</div>
+      <div class="f">有一定資金，或工作收入遇到瓶頸，想了解其他收入規劃可能的人。</div>
+      <div class="f">工作忙碌，希望透過財務規劃爭取更多時間自由的人。</div>
+    </div>
+
+    <div class="btn-wrap">
+      <a class="skbtn" href="https://lin.ee/S8QUSv8" target="_blank" rel="noopener">私訊我，了解資產配置 →</a>
+      <div class="btn-note">留言《財神》，我一對一幫你評估</div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="fa">金牛男庭駿 @threads29460000</div>
+    <div class="fc">Threads：@threads29460000<br>※ 本頁為一般財務教育資訊，並非個別投資建議。任何涉及市場變動的財務安排均有風險，實際適用情形須依個人條件評估。</div>
+  </footer>
+
+</div>
+
+<script>
+// 複製：每個灰底框右上角的按鈕，複製同一框裡的文字
+document.querySelectorAll('.copy-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var txt = btn.parentElement.querySelector('pre').innerText;
+    function done(){ btn.textContent = '已複製'; setTimeout(function(){ btn.textContent = '複製'; }, 1800); }
+    function fallback(){ var t=document.createElement('textarea'); t.value=txt; document.body.appendChild(t); t.select(); try{document.execCommand('copy');}catch(e){} t.remove(); done(); }
+    if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(done, fallback); } else { fallback(); }
+  });
+});
+
+// 頁內跳轉：不靠網址的 #，直接捲過去（預覽視窗、IG 內建瀏覽器裡 # 有時不會動）
+document.querySelectorAll('a[href^="#"]').forEach(function(link){
+  link.addEventListener('click', function(e){
+    var target = document.getElementById(link.getAttribute('href').slice(1));
+    if(!target) return;
+    e.preventDefault();
+    target.classList.add('vis');
+    target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+
+// 懸浮按鈕：「關於我」出現在畫面上時收起，避免兩顆按鈕同時出現
+var fc = document.getElementById('float-cta');
+var inst = document.getElementById('institute');
+if(fc && inst && 'IntersectionObserver' in window){
+  new IntersectionObserver(function(es){
+    fc.classList.toggle('hide', es[0].isIntersecting);
+  }, {threshold:0.05}).observe(inst);
+}
+
+// 捲動淡入
+function reveal(){
+  var vh = window.innerHeight;
+  document.querySelectorAll('.fade:not(.vis)').forEach(function(el){
+    if(el.getBoundingClientRect().top < vh*0.94) el.classList.add('vis');
+  });
+}
+window.addEventListener('scroll', reveal, {passive:true});
+window.addEventListener('load', reveal);
+reveal();
+setTimeout(function(){ document.querySelectorAll('.fade').forEach(function(el){ el.classList.add('vis'); }); }, 2500);
+</script>
+
+<!--
+═══════════════════════════════════════════
+學員落地頁模板（奇點研究所 × D11）
+═══════════════════════════════════════════
+· 用兩層大括號包起來的地方都要換成自己的內容，換完不能留下任何一組
+· 配色：第 2 行 <html data-theme="gold"> 改成 gold／green／navy／rose
+· 大頭照：跟這個檔案放在同一個資料夾，檔名 photo.jpg；或直接嵌成 data:image
+· 三個按鈕（懸浮按鈕、懸浮卡、最下面）都指向同一個連結
+· 數字只放真的，沒有就刪掉那一塊
+═══════════════════════════════════════════
+-->
+</body>
+</html>
