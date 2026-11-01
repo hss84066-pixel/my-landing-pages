@@ -131,5 +131,14 @@
     ['同意', '閱讀或使用本報告，即表示你已了解並同意以上內容。']
   ];
   var DISCLAIMER_PRO = ['解讀師觀點', '完整版中由解讀師撰寫的文字，是解讀師依專業經驗提出的個人詮釋與觀點，僅供參考，不代表唯一或絕對的答案。'];
-  root.BlueprintTexts = { DISCLAIMER: DISCLAIMER, DISCLAIMER_PRO: DISCLAIMER_PRO, CHANNEL: CHANNEL, TR_PLANET: TR_PLANET, TR_POINT: TR_POINT, TR_ASP: TR_ASP, TR_TONE: TR_TONE, SIGNS: SIGNS, ELEMENTS: ELEMENTS, MODES: MODES, SUN: SUN, MOON: MOON, ASC: ASC, HOUSE: HOUSE, TYPE: TYPE, AUTH: AUTH, LINE: LINE, ANGLE: ANGLE, CENTER_ZH: CENTER_ZH, OPEN: OPEN, OPEN_ORDER: OPEN_ORDER, WEAK: WEAK, STRONG: STRONG };
+
+  var PARTNER_SHORT = ['有魄力、敢衝', '穩定可靠、懂生活', '聰明幽默、聊得來', '溫暖顧家', '自信大方', '細心務實', '懂溝通、重平衡', '有深度、專一', '開朗、愛冒險', '成熟有責任感', '獨特、尊重自由', '溫柔、有同理心'];
+  var TYPE_MATCH = {
+    projector: { types: ['生產者', '顯示生產者'], why: '你負責看見方向，他們負責持續推進' },
+    generator: { types: ['投射者', '顯示者'], why: '他們幫你看清方向，你負責把事情做出來' },
+    mg: { types: ['投射者', '顯示者'], why: '他們幫你看清方向與時機，你負責快速執行' },
+    manifestor: { types: ['生產者', '投射者'], why: '你開創新局，他們接手推進與優化' },
+    reflector: { types: ['生產者', '投射者'], why: '穩定而真誠的能量，讓你映照出最好的自己' }
+  };
+  root.BlueprintTexts = { PARTNER_SHORT: PARTNER_SHORT, TYPE_MATCH: TYPE_MATCH, DISCLAIMER: DISCLAIMER, DISCLAIMER_PRO: DISCLAIMER_PRO, CHANNEL: CHANNEL, TR_PLANET: TR_PLANET, TR_POINT: TR_POINT, TR_ASP: TR_ASP, TR_TONE: TR_TONE, SIGNS: SIGNS, ELEMENTS: ELEMENTS, MODES: MODES, SUN: SUN, MOON: MOON, ASC: ASC, HOUSE: HOUSE, TYPE: TYPE, AUTH: AUTH, LINE: LINE, ANGLE: ANGLE, CENTER_ZH: CENTER_ZH, OPEN: OPEN, OPEN_ORDER: OPEN_ORDER, WEAK: WEAK, STRONG: STRONG };
 })(typeof self !== 'undefined' ? self : this);

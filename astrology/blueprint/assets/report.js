@@ -93,7 +93,28 @@
       '<dt>REST</dt><dd>' + TY.rest + '</dd></dl><div class="rule"></div><div class="sub">人生關鍵字</div><div class="kw">' + kw.join(' · ') + '</div></div>',
       5, '03 · 使用說明書'));
 
-    // 6 升級
+    // 6 天命名片（分享）
+    var match = T.TYPE_MATCH[hd.type], dS = sign(h.cusps[6]);
+    var trines = [(sS + 4) % 12, (sS + 8) % 12], sexts = [(sS + 2) % 12, (sS + 10) % 12], opp = (sS + 6) % 12;
+    var shareUrl = location.href.replace(/report\.html.*$/, '');
+    var share = {
+      name: name, sun: T.SIGNS[sS], moon: T.SIGNS[mS], asc: T.SIGNS[aS], type: TY.name, profile: hd.profile + ' ' + T.LINE[hd.pLine].n + '・' + T.LINE[hd.dLine].n,
+      auth: AU.name, kw: [T.SUN[sS].kw, TY.kw, T.SUN[mS].kw].filter(function (v, i, a) { return a.indexOf(v) === i; }).join(' · '),
+      matchTypes: match.types.join('、'), matchWhy: match.why, signs: trines.concat(sexts).map(function (i) { return T.SIGNS[i]; }).join('、'), opp: T.SIGNS[opp],
+      partner: T.PARTNER_SHORT[dS], url: shareUrl.replace(/^https?:\/\//, '')
+    };
+    var post = '我的天命藍圖出爐了！\n' + share.sun + '太陽・' + share.moon + '月亮・' + share.asc + '上升\n人類圖：' + share.type + ' ' + hd.profile + '｜' + share.auth + '\n人生關鍵字：' + share.kw +
+      '\n\n我在找：\n・最合拍的夥伴：' + share.matchTypes + '（' + share.matchWhy + '）\n・理想的另一半：' + share.partner + '的人\n・合拍星座：' + share.signs + '\n\n你是什麼類型？留言告訴我，看看我們合不合拍！\n免費測你的天命藍圖：' + shareUrl;
+    window.__bpShare = { r: r, s: share, post: post };
+    P.push(pg('share', '我的天命名片',
+      '<div class="part"><b>04</b>分享</div><h1>我的<span class="t">天命名片</span></h1><p class="key">把這張名片分享到 Skool 社群，讓大家看看你的星盤 × 人類圖長什麼樣子，也找到和你合拍的夥伴與伴侶。</p>' +
+      '<div class="share-wrap"><div class="share-card"><img id="card-img" alt="天命名片：' + esc(name) + '的星盤與人類圖摘要" width="1080" height="1350"><p class="card-wait" id="card-wait">名片產生中⋯</p></div>' +
+      '<div class="share-side"><div class="share-btns no-print"><a class="btn btn-main" id="card-dl" download="天命名片.png" href="#" aria-disabled="true">下載名片圖片</a><button class="btn btn-ghost" id="post-copy" type="button">複製 Skool 貼文</button></div>' +
+      '<p class="hint no-print">手機若無法直接下載，請長按圖片選擇「儲存圖片」。</p>' +
+      '<h3>建議的 Skool 貼文</h3><pre class="post" id="post-text">' + esc(post) + '</pre></div></div>',
+      6, '04 · 分享'));
+
+    // 7 升級
     function offer(o, main) {
       if (!o) return '';
       var btn = o.url ? '<a class="btn ' + (main ? 'btn-main' : 'btn-ghost') + '" href="' + esc(o.url) + '" target="_blank" rel="noopener">' + esc(o.cta || (main ? '升級完整版' : '預約諮詢')) + '</a>' : '<span class="btn ' + (main ? 'btn-main' : 'btn-ghost') + '" aria-disabled="true">即將開放</span>';
@@ -101,13 +122,82 @@
     }
     var tj = r.transit;
     P.push(pg('upgrade', '下一步',
-      '<div class="part"><b>04</b>下一步</div><h1>這是你藍圖的<span class="t">前 6 頁</span></h1>' +
+      '<div class="part"><b>05</b>下一步</div><h1>這只是你藍圖的<span class="t">開始</span></h1>' +
       '<div class="tease"><p>此刻，木星正經過你的<b>第 ' + tj.jupiter + ' 宮（' + T.HOUSE[tj.jupiter - 1] + '）</b>，這是 12 年一次在這個領域擴展的時機；土星在你的<b>第 ' + tj.saturn + ' 宮（' + T.HOUSE[tj.saturn - 1] + '）</b>，提醒你在這裡打穩基礎。完整版會告訴你接下來 12 個月，愛情、事業、人際、家庭與身心各自要注意什麼。</p></div>' +
       '<h2>完整版還包含</h2><ul class="full-list">' + ['星盤資料表與相位表', '宮位與關鍵相位解讀', '月交點：靈魂的來處與去向', '通道與開放中心完整解讀', '星盤 × 人類圖合成對照輪', '雙系統逐星對照', '未來 12 個月的實際行運', '未來一年總結：愛情、事業、人際、家庭、身心', '解讀師親筆的開場信', '專屬的結語與祝福'].map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
       '<div class="offers">' + offer(CFG.upgrade, true) + offer(CFG.consult, false) + '</div>' +
       '<div class="legal"><h3>使用須知與免責聲明</h3><dl>' + T.DISCLAIMER.map(function (x) { return '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>'; }).join('') + '</dl></div>',
-      6, '04 · 下一步'));
+      7, '05 · 下一步'));
     return P.join('');
+  }
+
+  // ---------- 天命名片：Canvas 繪製 1080×1350 圖片 ----------
+  function wrap(ctx, text, x, y, maxW, lh, maxLines) {
+    var line = '', lines = [];
+    for (var i = 0; i < text.length; i++) {
+      var test = line + text[i];
+      if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = text[i]; } else line = test;
+    }
+    if (line) lines.push(line);
+    lines.slice(0, maxLines || 99).forEach(function (l, i) { ctx.fillText(l, x, y + i * lh); });
+    return Math.min(lines.length, maxLines || 99) * lh;
+  }
+  function makeCard() {
+    var data = window.__bpShare, img = document.getElementById('card-img'); if (!data || !img) return;
+    var s = data.s, W = 1080, H = 1350, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    var ctx = cv.getContext('2d');
+    var SANS = '"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif', MONO = '"IBM Plex Mono",ui-monospace,monospace';
+    var fontsReady = document.fonts && document.fonts.load ? Promise.all(['900 64px "Noto Sans TC"', '700 30px "Noto Sans TC"', '500 26px "Noto Sans TC"', '600 22px "IBM Plex Mono"', '600 22px "Cinzel"'].map(function (f) { return document.fonts.load(f).catch(function () {}); })) : Promise.resolve();
+    var svg = CH.mandala(data.r).replace('<svg ', '<svg width="880" height="880" ');
+    var url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
+    var wheel = new Image();
+    var wheelReady = new Promise(function (res) { wheel.onload = res; wheel.onerror = res; wheel.src = url; });
+    Promise.all([fontsReady, wheelReady]).then(function () {
+      var g = ctx.createRadialGradient(W * .78, H * .3, 40, W * .78, H * .3, 760); g.addColorStop(0, 'rgba(134,207,224,.16)'); g.addColorStop(1, 'rgba(134,207,224,0)');
+      ctx.fillStyle = '#0d1226'; ctx.fillRect(0, 0, W, H); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      var g2 = ctx.createRadialGradient(0, 0, 20, 0, 0, 620); g2.addColorStop(0, 'rgba(200,163,95,.18)'); g2.addColorStop(1, 'rgba(200,163,95,0)'); ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(134,207,224,.35)'; ctx.lineWidth = 2; ctx.strokeRect(28, 28, W - 56, H - 56);
+      // 合成對照輪（右上，部分出界增加張力）
+      if (wheel.naturalWidth) { ctx.globalAlpha = .95; ctx.drawImage(wheel, 430, 150, 640, 640); ctx.globalAlpha = 1; }
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = '#86cfe0'; ctx.font = '700 26px ' + SANS; ctx.fillText('天命藍圖', 72, 108);
+      ctx.fillStyle = '#c8a35f'; ctx.font = '600 18px "Cinzel",serif'; ctx.fillText('CELESTIAL BLUEPRINT', 72, 140);
+      ctx.fillStyle = '#eef1f8'; ctx.font = '900 76px ' + SANS; wrap(ctx, s.name, 72, 250, 380, 86, 2);
+      var y = 360; ctx.font = '500 22px ' + SANS;
+      [['太陽', s.sun], ['月亮', s.moon], ['上升', s.asc]].forEach(function (x) {
+        ctx.fillStyle = '#86cfe0'; ctx.fillText(x[0], 72, y); ctx.fillStyle = '#eef1f8'; ctx.font = '700 40px ' + SANS; ctx.fillText(x[1] + '座', 140, y + 6); ctx.font = '500 22px ' + SANS; y += 72;
+      });
+      ctx.fillStyle = '#c8a35f'; ctx.fillRect(72, y - 10, 300, 3);
+      y += 40; ctx.fillStyle = '#86cfe0'; ctx.font = '500 22px ' + SANS; ctx.fillText('人類圖', 72, y);
+      ctx.fillStyle = '#eef1f8'; ctx.font = '900 54px ' + SANS; ctx.fillText(s.type, 72, y + 62);
+      ctx.fillStyle = '#b3bad2'; ctx.font = '500 24px ' + SANS; wrap(ctx, s.profile + '｜' + s.auth, 72, y + 108, 360, 34, 2);
+      // 關鍵字
+      ctx.fillStyle = '#c8a35f'; ctx.font = '700 34px ' + SANS; ctx.fillText(s.kw, 72, 860);
+      // 尋找夥伴面板
+      var px = 72, py = 900, pw = W - 144, ph = 300;
+      ctx.fillStyle = 'rgba(22,28,53,.92)'; ctx.fillRect(px, py, pw, ph); ctx.strokeStyle = 'rgba(200,163,95,.55)'; ctx.lineWidth = 2; ctx.strokeRect(px, py, pw, ph);
+      ctx.fillStyle = '#c8a35f'; ctx.font = '900 32px ' + SANS; ctx.fillText('我在找', px + 36, py + 58);
+      var rows = [['合拍夥伴', s.matchTypes + '：' + s.matchWhy], ['理想伴侶', s.partner + '的人'], ['合拍星座', s.signs + '　互相吸引：' + s.opp]];
+      var ry = py + 112;
+      rows.forEach(function (x) {
+        ctx.fillStyle = '#86cfe0'; ctx.font = '700 24px ' + SANS; ctx.fillText(x[0], px + 36, ry);
+        ctx.fillStyle = '#eef1f8'; ctx.font = '500 26px ' + SANS; var hh = wrap(ctx, x[1], px + 180, ry, pw - 220, 36, 2); ry += Math.max(hh, 36) + 22;
+      });
+      // 頁尾
+      ctx.fillStyle = '#eef1f8'; ctx.font = '700 26px ' + SANS; ctx.fillText('你是什麼類型？免費測你的天命藍圖', 72, 1262);
+      ctx.fillStyle = '#86cfe0'; ctx.font = '600 20px ' + MONO; wrap(ctx, s.url, 72, 1296, W - 144, 26, 1);
+      URL.revokeObjectURL(url);
+      var png = cv.toDataURL('image/png');
+      img.src = png; var w = document.getElementById('card-wait'); if (w) w.hidden = true;
+      var dl = document.getElementById('card-dl'); if (dl) { dl.href = png; dl.download = (s.name || '我') + '的天命名片.png'; dl.removeAttribute('aria-disabled'); }
+    });
+    var cp = document.getElementById('post-copy');
+    if (cp) cp.addEventListener('click', function () {
+      var done = function () { cp.textContent = '已複製'; setTimeout(function () { cp.textContent = '複製 Skool 貼文'; }, 2000); };
+      if (navigator.clipboard) navigator.clipboard.writeText(data.post).then(done, function () { selectPost(); });
+      else selectPost();
+    });
+    function selectPost() { var el = document.getElementById('post-text'), rg = document.createRange(); rg.selectNodeContents(el); var sl = getSelection(); sl.removeAllRanges(); sl.addRange(rg); cp.textContent = '已選取，請按複製'; }
   }
 
   function boot() {
@@ -118,6 +208,7 @@
       ['y','m','d','h','mi','lat','lon'].forEach(function (k) { if (typeof inp[k] !== 'number' || !isFinite(inp[k])) throw new Error('bad ' + k); });
       if (!inp.tz) throw new Error('tz');
       root.innerHTML = render(inp);
+      makeCard();
       document.title = (inp.n ? inp.n + '的' : '') + '天命藍圖';
     } catch (e) {
       root.innerHTML = '<section class="page in"><h1>找不到報告資料</h1><p>這個連結不完整或已損壞。請回到首頁重新填寫，報告會再寄到你的信箱。</p><p><a class="btn btn-main" href="./">回到首頁</a></p></section>';

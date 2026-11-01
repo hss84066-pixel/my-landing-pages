@@ -156,6 +156,14 @@ table.dt td.sym{font-family:var(--sym);font-weight:600;}
 .offer .price{font-family:var(--mono);font-size:12pt;font-weight:600;color:var(--gold);}
 .offer ul{margin:0;padding-left:1.1em;font-size:9.4pt;line-height:1.7;color:var(--mute2);}
 .offer .btn{margin-top:auto;}
+.share-wrap{display:grid;grid-template-columns:86mm 1fr;gap:6mm;align-items:start;margin-top:2mm;}
+.share-card{position:relative;}
+.share-card img{display:block;width:100%;height:auto;aspect-ratio:1080/1350;border-radius:2mm;box-shadow:0 0 0 1px rgba(134,207,224,.3);background:#0d1226;}
+.card-wait{position:absolute;inset:0;display:grid;place-items:center;margin:0;color:var(--mute);font-size:10pt;}
+.share-side h3{margin:3mm 0 1.6mm;font-size:10.4pt;color:var(--gold);}
+.share-btns{display:flex;flex-direction:column;gap:2.4mm;}
+.post{white-space:pre-wrap;font-family:var(--sans);font-size:8.8pt;line-height:1.7;background:var(--panel2);border:1px solid var(--line);border-radius:2mm;padding:3mm 3.4mm;margin:0;color:var(--mute2);}
+@media (max-width:640px){.share-wrap{grid-template-columns:1fr;}}
 .legal{margin-top:4mm;border-top:1px solid var(--line);padding-top:2.4mm;}
 .legal h3{margin:0 0 2mm;font-size:9.6pt;color:var(--mute2);letter-spacing:.1em;}
 .legal dl{display:grid;grid-template-columns:22mm 1fr;gap:.8mm 3mm;margin:0;font-size:7.3pt;line-height:1.55;color:var(--mute);}

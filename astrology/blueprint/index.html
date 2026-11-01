@@ -10,19 +10,20 @@
 <meta name="theme-color" content="#0a0e1d">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Symbols:wght@400;600&family=Cinzel:wght@600&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=5">
+<link rel="stylesheet" href="assets/style.css?v=7">
 </head>
 <body>
 <header class="bar"><div class="bar-in"><a class="brand" href="./">天命藍圖 <small>CELESTIAL BLUEPRINT</small></a></div></header>
 <main class="landing">
   <div class="hero">
     <h1>免費領取你的<span>天命藍圖</span></h1>
-    <p class="lede">輸入出生資料，取得一份 6 頁的星盤 × 人類圖解讀。行星位置與宮位都依你的出生時間與地點實際計算，報告會寄到你的信箱。</p>
+    <p class="lede">輸入出生資料，取得一份星盤 × 人類圖解讀，還有一張可以分享的天命名片。行星位置與宮位都依你的出生時間與地點實際計算，報告會寄到你的信箱。</p>
     <ul class="inside">
       <li><b>01</b>本命星盤與行星度數</li>
       <li><b>02</b>人類圖類型、策略與權威</li>
       <li><b>03</b>太陽、月亮、上升核心三角</li>
       <li><b>04</b>一頁使用說明書</li>
+      <li><b>05</b>可分享的天命名片：找到合拍的夥伴與伴侶</li>
     </ul>
     <form class="form" id="form" novalidate>
       <h2>填寫出生資料</h2>
@@ -47,12 +48,12 @@
   <aside class="art" aria-label="64 閘門輪預覽"><figure><div id="art"></div><figcaption id="artcap">填好出生日期、時間和地點後，這裡會換成你自己的 64 閘門輪。</figcaption></figure></aside>
 </main>
 <footer class="foot">© <span id="yr"></span> <span id="brandname"></span>。本網站與報告內容僅供自我探索與生活參考，不是對未來的預測或保證，也不構成醫療、心理、法律、財務或投資等專業建議；任何決定請自行判斷並承擔結果。</footer>
-<script src="assets/config.js?v=5"></script>
-<script src="vendor/astronomy.browser.min.js?v=5"></script>
-<script src="assets/astro.js?v=5"></script>
-<script src="assets/charts.js?v=5"></script>
-<script src="assets/cities.js?v=5"></script>
-<script src="assets/app.js?v=5"></script>
+<script src="assets/config.js?v=7"></script>
+<script src="vendor/astronomy.browser.min.js?v=7"></script>
+<script src="assets/astro.js?v=7"></script>
+<script src="assets/charts.js?v=7"></script>
+<script src="assets/cities.js?v=7"></script>
+<script src="assets/app.js?v=7"></script>
 <script>document.getElementById('yr').textContent=new Date().getFullYear();document.getElementById('brandname').textContent=(window.BLUEPRINT_CONFIG||{}).brand||'';</script>
 </body>
 </html>
