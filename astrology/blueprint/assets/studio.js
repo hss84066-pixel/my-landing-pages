@@ -2,6 +2,7 @@
 (function () {
   'use strict';
   var B = window.Blueprint, CH = window.BlueprintCharts, T = window.BlueprintTexts, CFG = window.BLUEPRINT_CONFIG || {}, CITIES = window.BLUEPRINT_CITIES;
+  var N = window.BlueprintNarrative;
   var ZH = { sun: '太陽', moon: '月亮', mercury: '水星', venus: '金星', mars: '火星', jupiter: '木星', saturn: '土星', uranus: '天王星', neptune: '海王星', pluto: '冥王星', nnode: '北交點', snode: '南交點', earth: '地球', asc: '上升', mc: '天頂' };
   var EL_COL = ['#e28a5e', '#86cfe0', '#a0a8d8', '#79c2cf'], MODE_COL = ['#e2735e', '#c8a35f', '#5c8fa0'];
   var $ = function (id) { return document.getElementById(id); };
@@ -82,10 +83,10 @@
     pageNo = 1;
 
     // 致你的一封信
+    var startD = new Date(); startD.setHours(0, 0, 0, 0);
+    var evAll = B.transitYear(r, startD, 366);
     P.push(pg('letter', '寫給你', '<div class="part"><b>00</b>序</div><h1>寫給<span class="t">' + esc(name) + '</span></h1>' +
-      '<p class="key">這一頁由解讀師親自撰寫。點一下文字即可修改，內容會自動存在這台電腦的瀏覽器裡。</p>' +
-      note('letter', '<p>親愛的' + esc(name) + '：</p><p>你出生在' + inp.y + ' 年 ' + inp.m + ' 月 ' + inp.d + ' 日 ' + timeStr + '，' + esc(inp.c || '') + '。那一刻，太陽在' + T.SIGNS[sS] + '座，月亮在' + T.SIGNS[mS] + '座，' + T.SIGNS[aS] + '座正從東方升起。</p><p>（在這裡寫下你對這張盤最想說的話：核心主題、你看見的天賦，以及這一年最重要的提醒。）</p><p style="text-align:right;">' + esc(reader) + '</p>'),
-      '序'));
+      note('letter', N.letter(r, inp, evAll).map(function (x) { return '<p>' + esc(x) + '</p>'; }).join('') + '<p style="text-align:right;">' + esc(reader) + '</p>'), '序'));
 
     // 本命星盤
     P.push(pg('natal', '本命星盤', '<div class="part"><b>01</b>天空的語言</div><h1>本命<span class="t">星盤</span></h1>' +
@@ -122,7 +123,7 @@
     P.push(pg('aspects', '宮位與相位', '<h1 style="margin-top:0;">宮位與<span class="t">相位</span></h1>' +
       '<h2>月交點軸線</h2><p>南交點在' + T.SIGNS[sign(pos.snode.lon)] + '座第 ' + pos.snode.house + ' 宮（舒適區：' + T.HOUSE[pos.snode.house - 1] + '）；北交點在' + T.SIGNS[sign(pos.nnode.lon)] + '座第 ' + pos.nnode.house + ' 宮（成長方向：' + T.HOUSE[pos.nnode.house - 1] + '）。</p>' +
       '<h2>主要相位（依容許度排序）</h2><table class="dt"><tr><th>相位</th><th>類型</th><th>容許度</th><th>性質</th></tr>' + aspRows + '</table>' +
-      note('aspects', '<p>（解讀師筆記：挑出 3–5 個最關鍵的相位，寫下天賦與課題。）</p>'), '01 · 天空的語言'));
+      '<h2>關鍵相位解讀</h2>' + note('aspects', N.keyAspects(r).map(function (x) { return '<p><b>' + esc(x[0]) + '</b>　' + esc(x[1]) + '</p>'; }).join('')), '01 · 天空的語言'));
 
     // 人類圖
     var defN = ['無定義', '單一定義', '二分定義', '三分定義', '四分定義'][hd.definition] || '多重定義';
@@ -157,7 +158,7 @@
     }).join('');
     function houseOf(l) { return B.houseOf(l, h.cusps); }
     P.push(pg('compare', '雙系統對照', '<h1 style="margin-top:0;">同一顆星，<span class="t">兩種語言</span></h1><table class="dt"><tr><th>行星</th><th>占星：星座 · 宮位</th><th>人類圖閘門</th><th>宮位主題</th></tr>' + cmp + '</table>' +
-      note('compare', '<p>（解讀師筆記：挑出 3 組最有共鳴的對照，例如「太陽宮位 × 太陽閘門」，寫下兩套系統共同指向的主題。）</p>'), '03 · 交會'));
+      '<h2>三組關鍵對照</h2>' + note('compare', N.compare(r).map(function (x) { return '<p><b>' + esc(x[0]) + '</b>　' + esc(x[1]) + '</p>'; }).join('')), '03 · 交會'));
 
     // 未來 12 個月
     var start = new Date(); start.setHours(0, 0, 0, 0);
@@ -178,25 +179,14 @@
     P.push(pg('transits', '未來 12 個月', '<div class="part"><b>04</b>時間</div><h1>未來 12 個月的<span class="t">天空</span></h1><p class="key">從 ' + ymd(start) + ' 起算的實際行運：外行星與本命點的相位、日月蝕、逆行與宮位變化。</p>' +
       '<table class="dt tr-table"><tr><th style="width:36mm;">時間</th><th>天象</th><th>對個案的意義</th></tr>' + evRows + '</table>', '04 · 時間', 'flow'));
 
-    // 未來一年重點（自動草稿）
-    function pick(fn) { return ev.filter(fn).slice(0, 6).map(function (e) {
-      var w = ymd(e.start);
-      if (e.kind === 'aspect') return w + '　' + TRZ[e.body] + T.TR_ASP[e.type] + ZH[e.natal];
-      if (e.kind === 'eclipse') return w + '　' + (e.solar ? '日蝕' : '月蝕') + '第 ' + e.house + ' 宮';
-      if (e.kind === 'station') return w + '　' + TRZ[e.body] + (e.retro ? '逆行' : '順行') + '第 ' + e.house + ' 宮';
-      return w + '　' + TRZ[e.body] + '入第 ' + e.house + ' 宮'; }); }
-    var areas = [
-      ['love', '愛情', function (e) { return e.natal === 'venus' || e.natal === 'moon' || e.house === 5 || e.house === 7 || (e.kind === 'aspect' && e.body === 'venus'); }],
-      ['career', '事業', function (e) { return e.natal === 'mc' || e.natal === 'sun' || e.house === 10 || e.house === 6 || (e.kind === 'aspect' && e.body === 'saturn'); }],
-      ['social', '人際', function (e) { return e.natal === 'asc' || e.natal === 'mercury' || e.house === 11 || e.house === 3 || (e.kind === 'station' && e.body === 'mercury'); }],
-      ['family', '家庭', function (e) { return e.natal === 'moon' || e.house === 4; }],
-      ['health', '身心', function (e) { return (e.kind === 'aspect' && (e.body === 'mars' || e.body === 'saturn') && (e.natal === 'mars' || e.natal === 'sun' || e.natal === 'asc')) || e.house === 6 || e.house === 1 || (e.kind === 'station' && e.body === 'mars'); }]];
-    var areaHtml = areas.map(function (a) {
-      var facts = pick(a[2]);
-      return '<div class="dom"><h2>' + a[1] + '</h2><p class="basis mono">相關天象：' + (facts.length ? facts.join('｜') : '這段期間沒有特別強的行運') + '</p>' +
-        note('area-' + a[0], '<p>（在這裡寫下' + a[1] + '的趨勢與建議。）</p>') + '</div>';
+    // 未來一年總結（自動解讀）
+    var areaHtml = N.AREAS.map(function (k) {
+      var x = N.area(k, r, evAll);
+      return '<div class="dom"><h2>' + x.name + '</h2>' + note('area-' + k,
+        '<p><b>你的本質</b>　' + esc(x.nat) + '</p><p><b>這一年的趨勢</b>　' + esc(x.trend) + '</p><p><b>具體建議</b></p><ul>' +
+        x.tips.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' + (x.timing ? '<p class="timing">' + esc(x.timing).replace(/\n/g, '<br>') + '</p>' : '')) + '</div>';
     }).join('');
-    P.push(pg('year', '未來一年總結', '<h1 style="margin-top:0;">未來一年<span class="t">總結</span></h1><p class="key">系統已依行運挑出每個面向的相關天象，解讀師在下方補上趨勢與建議即可。身心部分請以能量傾向表述，不做醫療判斷。</p>' + areaHtml, '04 · 時間', 'flow'));
+    P.push(pg('year', '未來一年總結', '<h1 style="margin-top:0;">未來一年<span class="t">總結</span></h1><p class="key">根據你的本命盤，以及從 ' + ymd(startD) + ' 起未來 12 個月的實際行運，整理出五個生活面向的趨勢與具體建議。行運描述的是傾向與時機，不是注定的結果，怎麼運用由你決定。</p>' + areaHtml, '04 · 時間', 'flow'));
 
     // 使用說明書
     var firstOpen = T.OPEN_ORDER.filter(function (c) { return hd.open.indexOf(c) >= 0; })[0];
@@ -209,7 +199,7 @@
 
     // 祝福
     P.push(pg('blessing', '結語與祝福', '<div class="part"><b>06</b>結語</div><h1>結語與<span class="t">祝福</span></h1>' +
-      note('blessing', '<p style="text-align:center;">（在這裡寫下給' + esc(name) + '的祝福詩或結語。）</p>') +
+      note('blessing', '<div class="poem">' + N.blessing(r).map(function (l) { return l ? esc(l) : '&nbsp;'; }).join('<br>') + '</div>') +
       '<p style="text-align:center;margin-top:8mm;color:var(--gold);" class="mono">— ' + esc(reader) + '</p>', '06 · 結語'));
 
     // 使用須知與免責聲明
@@ -221,6 +211,7 @@
 
   // ---------- 筆記：存在這台電腦的瀏覽器 ----------
   var storeKey = '';
+  var STORE = 'bp-notes-v2:';
   function loadNotes() {
     document.querySelectorAll('[data-note]').forEach(function (el) {
       try { var v = localStorage.getItem(storeKey + ':' + el.dataset.note); if (v != null) el.innerHTML = v; } catch (e) {}
@@ -231,10 +222,10 @@
     var root = $('report');
     try {
       root.innerHTML = build(inp);
-      storeKey = 'bp-notes:' + [inp.y, inp.m, inp.d, inp.h, inp.mi, inp.lat.toFixed(2), inp.n].join('-');
+      storeKey = STORE + [inp.y, inp.m, inp.d, inp.h, inp.mi, inp.lat.toFixed(2), inp.n].join('-');
       loadNotes();
       document.title = (inp.n ? inp.n + '的' : '') + '天命藍圖（完整版）';
-      $('status').textContent = '已產生 ' + root.querySelectorAll('section.page').length + ' 頁。點任何虛線框文字即可編修，完成後按「列印／存成 PDF」。';
+      $('status').textContent = '已產生 ' + root.querySelectorAll('section.page').length + ' 頁完整報告，解讀文字已自動寫好。想調整語氣，直接點文字修改即可；完成後按「列印／存成 PDF」。';
     } catch (e) { $('status').textContent = '產生失敗：' + e.message; if (window.console) console.error(e); }
   }
   $('studio-form').addEventListener('submit', function (e) {
