@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>免費領取你的天命藍圖｜星盤 × 人類圖</title>
+<meta name="description" content="輸入出生資料，免費領取 6 頁的星盤 × 人類圖解讀報告，寄到你的信箱。">
+<meta property="og:title" content="免費領取你的天命藍圖">
+<meta property="og:description" content="星盤 × 人類圖合成解讀，6 頁免費版，寄到你的信箱。">
+<meta name="theme-color" content="#0a0e1d">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Symbols:wght@400;600&family=Cinzel:wght@600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="bar"><div class="bar-in"><a class="brand" href="./">天命藍圖 <small>CELESTIAL BLUEPRINT</small></a></div></header>
+<main class="landing">
+  <div class="hero">
+    <h1>免費領取你的<span>天命藍圖</span></h1>
+    <p class="lede">輸入出生資料，取得一份 6 頁的星盤 × 人類圖解讀。行星位置與宮位都依你的出生時間與地點實際計算，報告會寄到你的信箱。</p>
+    <ul class="inside">
+      <li><b>01</b>本命星盤與行星度數</li>
+      <li><b>02</b>人類圖類型、策略與權威</li>
+      <li><b>03</b>太陽、月亮、上升核心三角</li>
+      <li><b>04</b>一頁使用說明書</li>
+    </ul>
+    <form class="form" id="form" novalidate>
+      <h2>填寫出生資料</h2>
+      <div class="field full"><label for="name">名字或暱稱</label><input id="name" name="name" autocomplete="nickname" maxlength="20" required></div>
+      <div class="field"><label for="bdate">出生日期（西元）</label><input id="bdate" name="bdate" type="date" min="1900-01-01" max="2100-12-31" required></div>
+      <div class="field"><label for="btime">出生時間</label><input id="btime" name="btime" type="time" required></div>
+      <p class="hint full" style="grid-column:1/-1;">出生時間會影響上升星座與宮位，請盡量填寫準確（可參考出生證明或媽媽手冊）。</p>
+      <div class="field full"><label for="city">出生地</label><select id="city" name="city"></select></div>
+      <div class="other" id="other" hidden>
+        <div class="field"><label for="cityname">城市名稱</label><input id="cityname" name="cityname" maxlength="20"></div>
+        <div class="field"><label for="lat">緯度（北正南負）</label><input id="lat" name="lat" inputmode="decimal" placeholder="25.03"></div>
+        <div class="field"><label for="lon">經度（東正西負）</label><input id="lon" name="lon" inputmode="decimal" placeholder="121.56"></div>
+        <div class="field full"><label for="tz">時區</label><select id="tz" name="tz"></select></div>
+      </div>
+      <div class="field full"><label for="email">Email（報告會寄到這裡）</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      <div class="hp" aria-hidden="true"><label for="website">網站</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+      <label class="consent" for="consent"><input id="consent" type="checkbox"><span>我同意提供姓名、出生資料與 Email，用於產生並寄送本報告，以及接收相關的解讀與課程資訊；我可以隨時要求停止接收或刪除資料。</span></label>
+      <p class="msg" id="msg" hidden role="status" aria-live="polite"></p>
+      <button class="btn btn-main" id="submit" type="submit">寄給我我的天命藍圖</button>
+    </form>
+  </div>
+  <aside class="art" aria-label="64 閘門輪預覽"><figure><div id="art"></div><figcaption id="artcap">填好出生日期、時間和地點後，這裡會換成你自己的 64 閘門輪。</figcaption></figure></aside>
+</main>
+<footer class="foot">© <span id="yr"></span> <span id="brandname"></span>。星盤與人類圖是自我探索的工具，不能取代醫療、法律或財務等專業意見。</footer>
+<script src="assets/config.js"></script>
+<script src="vendor/astronomy.browser.min.js"></script>
+<script src="assets/astro.js"></script>
+<script src="assets/charts.js"></script>
+<script src="assets/app.js"></script>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();document.getElementById('brandname').textContent=(window.BLUEPRINT_CONFIG||{}).brand||'';</script>
+</body>
+</html>
