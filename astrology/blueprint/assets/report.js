@@ -103,8 +103,8 @@
       matchTypes: match.types.join('、'), matchWhy: match.why, signs: trines.concat(sexts).map(function (i) { return T.SIGNS[i]; }).join('、'), opp: T.SIGNS[opp],
       partner: T.PARTNER_SHORT[dS], url: shareUrl.replace(/^https?:\/\//, '')
     };
-    var post = '我的天命藍圖出爐了！\n' + share.sun + '太陽・' + share.moon + '月亮・' + share.asc + '上升\n人類圖：' + share.type + ' ' + hd.profile + '｜' + share.auth + '\n人生關鍵字：' + share.kw +
-      '\n\n我在找：\n・最合拍的夥伴：' + share.matchTypes + '（' + share.matchWhy + '）\n・理想的另一半：' + share.partner + '的人\n・合拍星座：' + share.signs + '\n\n你是什麼類型？留言告訴我，看看我們合不合拍！\n免費測你的天命藍圖：' + shareUrl;
+    var post = '我是' + (inp.n || '') + '\n我是' + share.sun + '太陽・' + share.moon + '月亮・' + share.asc + '上升\n我是人類圖的' + share.type + ' ' + hd.profile + '｜' + share.auth + '\n我的人生關鍵字：' + share.kw +
+      '\n\n我在找：\n・最合拍的夥伴：' + share.matchTypes + '（' + share.matchWhy.replace(/你/g, '我') + '）\n・理想的另一半：' + share.partner + '的人\n・合拍星座：' + share.signs;
     window.__bpShare = { r: r, s: share, post: post };
     P.push(pg('share', '我的天命名片',
       '<div class="part"><b>04</b>分享</div><h1>我的<span class="t">天命名片</span></h1><p class="key">把這張名片分享到 Skool 社群，讓大家看看你的星盤 × 人類圖長什麼樣子，也找到和你合拍的夥伴與伴侶。</p>' +
