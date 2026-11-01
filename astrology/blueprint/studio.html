@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>天命藍圖工作台</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0a0e1d">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Symbols:wght@400;600&family=Cinzel:wght@600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/studio.css">
+</head>
+<body>
+<header class="bar"><div class="bar-in"><span class="brand">天命藍圖 <small>工作台・內部使用</small></span>
+  <div class="bar-actions"><button class="btn btn-ghost btn-sm" id="clear" type="button">清除筆記</button><button class="btn btn-main btn-sm" id="print" type="button">列印／存成 PDF</button></div></div></header>
+<section class="studio no-print">
+  <form id="studio-form" class="form" novalidate>
+    <h2>輸入個案出生資料</h2>
+    <div class="field"><label for="name">個案姓名</label><input id="name" maxlength="20"></div>
+    <div class="field"><label for="reader">解讀者署名</label><input id="reader" maxlength="40"></div>
+    <div class="field"><label for="bdate">出生日期（西元）</label><input id="bdate" type="date" min="1900-01-01" max="2100-12-31" required></div>
+    <div class="field"><label for="btime">出生時間</label><input id="btime" type="time" required></div>
+    <div class="field full"><label for="city">出生地</label><select id="city"></select></div>
+    <div class="other" id="other" hidden>
+      <div class="field"><label for="cityname">城市名稱</label><input id="cityname" maxlength="20"></div>
+      <div class="field"><label for="lat">緯度</label><input id="lat" inputmode="decimal" placeholder="25.03"></div>
+      <div class="field"><label for="lon">經度</label><input id="lon" inputmode="decimal" placeholder="121.56"></div>
+      <div class="field full"><label for="tz">時區</label><select id="tz"></select></div>
+    </div>
+    <button class="btn btn-main" type="submit">產生完整報告</button>
+    <p class="hint" id="status" role="status" aria-live="polite" style="grid-column:1/-1;">這是內部工作台：不需要 Email，也不會記錄名單。網址會記住這次輸入，可存成書籤回來繼續編修。</p>
+  </form>
+</section>
+<main class="stack" id="report"></main>
+<script src="assets/config.js"></script>
+<script src="assets/cities.js"></script>
+<script src="vendor/astronomy.browser.min.js"></script>
+<script src="assets/astro.js"></script>
+<script src="assets/charts.js"></script>
+<script src="assets/texts.js"></script>
+<script src="assets/studio.js"></script>
+</body>
+</html>

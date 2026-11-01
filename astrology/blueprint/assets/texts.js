@@ -107,5 +107,15 @@
     '風': '以風元素為主調：思考快、善於交流，記得讓想法落地成行動。',
     '水': '以水元素為主調：感受細膩、重視連結，記得替自己的情緒設下界線。'
   };
-  root.BlueprintTexts = { SIGNS: SIGNS, ELEMENTS: ELEMENTS, MODES: MODES, SUN: SUN, MOON: MOON, ASC: ASC, HOUSE: HOUSE, TYPE: TYPE, AUTH: AUTH, LINE: LINE, ANGLE: ANGLE, CENTER_ZH: CENTER_ZH, OPEN: OPEN, OPEN_ORDER: OPEN_ORDER, WEAK: WEAK, STRONG: STRONG };
+
+  var CHANNEL = { '1-8': '啟發', '2-14': '脈動', '3-60': '突變', '4-63': '邏輯', '5-15': '韻律', '6-59': '親密', '7-31': '創始者', '9-52': '專注',
+    '10-20': '覺醒', '10-34': '探索', '10-57': '完美形式', '11-56': '好奇', '12-22': '開放', '13-33': '浪子', '16-48': '才華', '17-62': '接受',
+    '18-58': '判斷', '19-49': '整合', '20-34': '魅力', '20-57': '腦波', '21-45': '金錢', '23-43': '結構', '24-61': '覺察', '25-51': '發起',
+    '26-44': '投降', '27-50': '保存', '28-38': '困頓掙扎', '29-46': '發現', '30-41': '認可', '32-54': '蛻變', '34-57': '力量', '35-36': '無常',
+    '37-40': '社群', '39-55': '情緒', '42-53': '成熟', '47-64': '抽象' };
+  var TR_PLANET = { mars: '行動與摩擦', jupiter: '擴展與機會', saturn: '考驗與結構', uranus: '突變與自由', neptune: '靈感與模糊', pluto: '深層轉化', mercury: '溝通與思考', venus: '關係與金錢' };
+  var TR_POINT = { sun: '自我與方向', moon: '情緒與家庭', mercury: '思考與溝通', venus: '愛情與金錢', mars: '行動力', jupiter: '信念與成長', saturn: '責任與界線', asc: '形象與身體', mc: '事業與名聲' };
+  var TR_ASP = { conj: '合', sext: '六合', sq: '刑', tri: '拱', opp: '沖' };
+  var TR_TONE = { conj: '強化', sext: '順流', tri: '順流', sq: '調整', opp: '拉扯' };
+  root.BlueprintTexts = { CHANNEL: CHANNEL, TR_PLANET: TR_PLANET, TR_POINT: TR_POINT, TR_ASP: TR_ASP, TR_TONE: TR_TONE, SIGNS: SIGNS, ELEMENTS: ELEMENTS, MODES: MODES, SUN: SUN, MOON: MOON, ASC: ASC, HOUSE: HOUSE, TYPE: TYPE, AUTH: AUTH, LINE: LINE, ANGLE: ANGLE, CENTER_ZH: CENTER_ZH, OPEN: OPEN, OPEN_ORDER: OPEN_ORDER, WEAK: WEAK, STRONG: STRONG };
 })(typeof self !== 'undefined' ? self : this);

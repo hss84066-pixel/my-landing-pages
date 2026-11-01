@@ -181,5 +181,74 @@
     S.push('</svg>'); return S.join('');
   }
 
-  root.BlueprintCharts = { natal: natal, bodygraph: bodygraphFull, gateWheel: gateWheel, dm: dm, pad: pad, SG: SG, GL: GL };
+
+  // ---------- 相位表 ----------
+  function aspectMark(nm, x, y, col) {
+    if (nm === 'sq') return '<rect x="' + (x - 5) + '" y="' + (y - 5) + '" width="10" height="10" fill="none" stroke="' + col + '" stroke-width="1.6"/>';
+    if (nm === 'tri') return '<path d="M' + x + ',' + (y - 6) + ' L' + (x + 6) + ',' + (y + 5) + ' L' + (x - 6) + ',' + (y + 5) + 'Z" fill="none" stroke="' + col + '" stroke-width="1.6"/>';
+    var ch = { conj: '☌', opp: '☍', sext: '⚹' }[nm];
+    return '<text x="' + x + '" y="' + y + '" font-family="' + SYM + '" font-size="13" font-weight="600" fill="' + col + '" text-anchor="middle" dominant-baseline="central">' + ch + '</text>';
+  }
+  function aspectGrid(r) {
+    var keys = ['sun','moon','mercury','venus','mars','jupiter','saturn','uranus','neptune','pluto','asc','mc'];
+    var lon = function (k) { return k === 'asc' ? r.houses.asc : k === 'mc' ? r.houses.mc : r.pos[k].lon; };
+    var c = 30, n = keys.length, W = c * (n + 1) + 4, S = ['<svg class="chart-svg" viewBox="0 0 ' + W + ' ' + W + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="相位表">'];
+    var AS = [[0,'conj'],[60,'sext'],[90,'sq'],[120,'tri'],[180,'opp']];
+    keys.forEach(function (k, i) {
+      var y = c * (i + 1);
+      for (var j = 0; j < i; j++) {
+        var x = c * (j + 1), a = keys[j], d = Math.abs(lon(a) - lon(k)) % 360; d = Math.min(d, 360 - d);
+        S.push('<rect x="' + x + '" y="' + y + '" width="' + c + '" height="' + c + '" fill="' + C.inner + '" stroke="' + C.line + '" stroke-width=".8"/>');
+        var lum = ['sun','moon'].indexOf(a) >= 0 || ['sun','moon'].indexOf(k) >= 0;
+        AS.forEach(function (s) {
+          var orb = Math.abs(d - s[0]);
+          if (orb <= (lum ? 8 : 6)) {
+            S.push(aspectMark(s[1], x + c / 2, y + c / 2 - 4, ACOL[s[1]]));
+            S.push('<text x="' + (x + c / 2) + '" y="' + (y + c - 5) + '" font-family="' + MONO + '" font-size="7" font-weight="500" fill="' + C.mute + '" text-anchor="middle">' + Math.floor(orb) + '°' + pad(Math.round((orb % 1) * 60) % 60) + '</text>');
+          }
+        });
+      }
+      var x0 = c * (i + 1);
+      S.push('<rect x="' + x0 + '" y="' + y + '" width="' + c + '" height="' + c + '" fill="' + C.ink + '"/>');
+      if (k === 'asc' || k === 'mc') S.push('<text x="' + (x0 + c / 2) + '" y="' + (y + c / 2) + '" font-family="' + MONO + '" font-size="8.5" font-weight="600" fill="' + C.onMark + '" text-anchor="middle" dominant-baseline="central">' + k.toUpperCase() + '</text>');
+      else S.push(glyph(k, x0 + c / 2, y + c / 2, 15, C.onMark));
+    });
+    S.push('</svg>'); return S.join('');
+  }
+
+  // ---------- 合成對照輪（64 閘門 × 黃道 × 宮位 × 人類圖） ----------
+  function mandala(r) {
+    var hd = r.hd, pt = mkPt(r.houses.asc), cusps = r.houses.cusps, S = ['<svg class="chart-svg" viewBox="-440 -440 880 880" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="星盤與人類圖合成對照輪">'];
+    S.push('<circle r="430" fill="' + C.paper + '" stroke="' + C.ink + '" stroke-opacity=".7" stroke-width="1.4"/>');
+    B.ORDER.forEach(function (g, i) {
+      var a = 302 + i * 5.625, b = a + 5.625, p = hd.pset[g], d = hd.dset[g];
+      if (p && d) S.push('<path d="' + arcSeg(pt, a, b, 428, 408) + '" fill="' + C.ink + '"/><path d="' + arcSeg(pt, a, b, 408, 388) + '" fill="' + C.des + '"/>');
+      else S.push('<path d="' + arcSeg(pt, a, b, 428, 388) + '" fill="' + (p ? C.ink : d ? C.des : C.inner) + '"/>');
+      S.push('<path d="' + arcSeg(pt, a, b, 428, 388) + '" fill="none" stroke="' + C.ink + '" stroke-opacity=".25" stroke-width=".6"/>');
+      var t = pt(a + 2.8125, 408);
+      S.push('<text x="' + f(t[0]) + '" y="' + f(t[1]) + '" font-family="' + MONO + '" font-size="12" font-weight="600" fill="' + (p || d ? C.onMark : C.mute) + '" text-anchor="middle" dominant-baseline="central">' + g + '</text>');
+    });
+    zodiacRing(S, pt, 388, 350, 20, [7, 5, 2.5]);
+    S.push('<circle r="350" fill="none" stroke="' + C.ink + '" stroke-opacity=".6"/>');
+    cusps.forEach(function (c, i) {
+      var ax = [0, 3, 6, 9].indexOf(i) >= 0, a = pt(c, 343), b = pt(c, 230);
+      S.push('<line x1="' + f(a[0]) + '" y1="' + f(a[1]) + '" x2="' + f(b[0]) + '" y2="' + f(b[1]) + '" stroke="' + (ax ? C.gold : C.mute) + '" stroke-opacity="' + (ax ? .9 : .5) + '" stroke-width="' + (ax ? 1.4 : .8) + '"' + (ax ? '' : ' stroke-dasharray="3 4"') + '/>');
+      var nx = cusps[(i + 1) % 12], mid = c + (((nx - c) % 360) + 360) % 360 / 2, t = pt(mid, 338);
+      S.push('<text x="' + f(t[0]) + '" y="' + f(t[1]) + '" font-family="' + MONO + '" font-size="9.5" font-weight="600" fill="' + C.gold + '" text-anchor="middle" dominant-baseline="central">' + (i + 1) + '</text>');
+    });
+    S.push('<circle r="230" fill="' + C.inner + '" stroke="' + C.ink + '" stroke-opacity=".5"/>');
+    [[321, 298, C.ink, hd.P, r.pos], [270, 246, C.des, hd.D, r.design.pos]].forEach(function (tr) {
+      spread(ROWS.map(function (k) { return [k, tr[4][k].lon]; }), 7.4).forEach(function (it) {
+        var k = it[0], l = it[1], p = it[2], a = pt(l, 350), b = pt(l, 338), c = pt(p, tr[0] + 12);
+        S.push('<path d="M' + f(a[0]) + ',' + f(a[1]) + ' L' + f(b[0]) + ',' + f(b[1]) + ' L' + f(c[0]) + ',' + f(c[1]) + '" fill="none" stroke="' + tr[2] + '" stroke-width=".8" stroke-opacity=".7"/>');
+        var m = pt(p, tr[0]); S.push('<circle cx="' + f(m[0]) + '" cy="' + f(m[1]) + '" r="11.5" fill="' + tr[2] + '"/>' + glyph(k, m[0], m[1], 14, C.onMark));
+        var g = tr[3][k], t = pt(p, tr[1]);
+        S.push('<text x="' + f(t[0]) + '" y="' + f(t[1]) + '" font-family="' + MONO + '" font-size="10.5" font-weight="600" fill="' + tr[2] + '" text-anchor="middle" dominant-baseline="central">' + g.gate + '.' + g.line + '</text>');
+      });
+    });
+    S.push(bodygraph(hd, -150 * 0.88, -257 * 0.88, 0.88));
+    S.push('</svg>'); return S.join('');
+  }
+
+  root.BlueprintCharts = { natal: natal, aspectGrid: aspectGrid, mandala: mandala, bodygraph: bodygraphFull, gateWheel: gateWheel, dm: dm, pad: pad, SG: SG, GL: GL };
 })(typeof self !== 'undefined' ? self : this);

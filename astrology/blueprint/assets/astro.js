@@ -149,6 +149,59 @@
     return out;
   }
 
+
+  // ---------- 未來 12 個月行運（內部版） ----------
+  function transitYear(r, start, days) {
+    days = days || 366;
+    var t0 = start.getTime(), DAY = 864e5, out = [];
+    var natal = { sun: r.pos.sun.lon, moon: r.pos.moon.lon, mercury: r.pos.mercury.lon, venus: r.pos.venus.lon, mars: r.pos.mars.lon,
+      jupiter: r.pos.jupiter.lon, saturn: r.pos.saturn.lon, asc: r.houses.asc, mc: r.houses.mc };
+    var TP = ['Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+    var ASP = [[0, 'conj'], [60, 'sext'], [90, 'sq'], [120, 'tri'], [180, 'opp']];
+    var runs = {}, prevHouse = {}, prevSpeed = {};
+    for (var d = 0; d <= days; d++) {
+      var date = new Date(t0 + d * DAY), t = A.MakeTime(date), t2 = A.MakeTime(new Date(t0 + (d + 1) * DAY));
+      TP.concat(['Mercury', 'Venus']).forEach(function (b) {
+        var l = lonOf(b, t), l2 = lonOf(b, t2), sp = ((l2 - l + 540) % 360) - 180, key = b.toLowerCase();
+        if (prevSpeed[key] !== undefined && (prevSpeed[key] < 0) !== (sp < 0))
+          out.push({ kind: 'station', body: key, retro: sp < 0, start: date, end: date, lon: l, house: houseOf(l, r.houses.cusps) });
+        prevSpeed[key] = sp;
+        if (TP.indexOf(b) < 0) return;
+        var h = houseOf(l, r.houses.cusps);
+        if (b !== 'Mars' && prevHouse[key] && prevHouse[key] !== h) out.push({ kind: 'house', body: key, house: h, start: date, end: date, lon: l });
+        prevHouse[key] = h;
+        Object.keys(natal).forEach(function (n) {
+          var diff = Math.abs(l - natal[n]) % 360; diff = Math.min(diff, 360 - diff);
+          ASP.forEach(function (x) {
+            if (b === 'Mars' && (x[1] === 'sext' || x[1] === 'tri')) return;
+            var k = key + '|' + x[1] + '|' + n, hit = Math.abs(diff - x[0]) < 1;
+            var cur = runs[k];
+            if (hit) {
+              if (cur && cur.open && (d - cur.lastD) <= 3) { cur.end = date; cur.lastD = d; }
+              else { cur = runs[k + '#' + d] = { kind: 'aspect', body: key, type: x[1], natal: n, start: date, end: date, lastD: d, open: true }; runs[k] = cur; }
+            } else if (cur && d - cur.lastD > 3) cur.open = false;
+          });
+        });
+      });
+    }
+    Object.keys(runs).forEach(function (k) { if (k.indexOf('#') > 0) out.push(runs[k]); });
+    // 日月蝕
+    try {
+      var se = A.SearchGlobalSolarEclipse(start);
+      while (se.peak.date.getTime() < t0 + days * DAY) {
+        var ls = lonOf('Sun', se.peak); out.push({ kind: 'eclipse', solar: true, type: se.kind, start: se.peak.date, end: se.peak.date, lon: ls, house: houseOf(ls, r.houses.cusps) });
+        se = A.NextGlobalSolarEclipse(se.peak);
+      }
+      var le = A.SearchLunarEclipse(start);
+      while (le.peak.date.getTime() < t0 + days * DAY) {
+        var lm = lonOf('Moon', le.peak); out.push({ kind: 'eclipse', solar: false, type: le.kind, start: le.peak.date, end: le.peak.date, lon: lm, house: houseOf(lm, r.houses.cusps) });
+        le = A.NextLunarEclipse(le.peak);
+      }
+    } catch (e) {}
+    out.sort(function (a, b) { return a.start - b.start; });
+    return out;
+  }
+
   function compute(input) {
     var u = localToUTC(input.y, input.m, input.d, input.h, input.mi, input.tz);
     var pos = positions(u.date);
@@ -164,6 +217,6 @@
     return { input: input, utc: u.date, offsetMin: u.offsetMin, pos: pos, houses: hs, design: { date: dd, pos: dpos }, hd: hd, aspects: asp, transit: transit };
   }
 
-  var api = { compute: compute, gateOf: gateOf, houseOf: houseOf, norm: norm, CENTERS: CENTERS, CHANNELS: CHANNELS, G2C: G2C, ORDER: ORDER, localToUTC: localToUTC, positions: positions, houses: houses };
+  var api = { compute: compute, transitYear: transitYear, lonOf: function (b, d) { return lonOf(b, A.MakeTime(d)); }, gateOf: gateOf, houseOf: houseOf, norm: norm, CENTERS: CENTERS, CHANNELS: CHANNELS, G2C: G2C, ORDER: ORDER, localToUTC: localToUTC, positions: positions, houses: houses };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Blueprint = api;
 })(typeof self !== 'undefined' ? self : this);
