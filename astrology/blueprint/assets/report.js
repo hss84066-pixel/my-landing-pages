@@ -97,13 +97,13 @@
     function offer(o, main) {
       if (!o) return '';
       var btn = o.url ? '<a class="btn ' + (main ? 'btn-main' : 'btn-ghost') + '" href="' + esc(o.url) + '" target="_blank" rel="noopener">' + esc(o.cta || (main ? '升級完整版' : '預約諮詢')) + '</a>' : '<span class="btn ' + (main ? 'btn-main' : 'btn-ghost') + '" aria-disabled="true">即將開放</span>';
-      return '<div class="offer' + (main ? ' main' : '') + '"><h3>' + esc(o.title) + '</h3>' + (o.price ? '<div class="price">' + esc(o.price) + '</div>' : '') + '<ul>' + (o.points || []).map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' + btn + '</div>';
+      return '<div class="offer' + (main ? ' main' : '') + '"><h3>' + esc(o.title) + '</h3>' + (o.price ? '<div class="price">' + esc(o.price) + '</div>' : '') + (o.keyword ? '<p class="howto">到官方 LINE 輸入<span class="kw-chip">' + esc(o.keyword) + '</span>' + esc(o.desc || '') + '</p>' : '<ul>' + (o.points || []).map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>') + btn + '</div>';
     }
     var tj = r.transit;
     P.push(pg('upgrade', '下一步',
       '<div class="part"><b>04</b>下一步</div><h1>這是你藍圖的<span class="t">前 6 頁</span></h1>' +
       '<div class="tease"><p>此刻，木星正經過你的<b>第 ' + tj.jupiter + ' 宮（' + T.HOUSE[tj.jupiter - 1] + '）</b>，這是 12 年一次在這個領域擴展的時機；土星在你的<b>第 ' + tj.saturn + ' 宮（' + T.HOUSE[tj.saturn - 1] + '）</b>，提醒你在這裡打穩基礎。完整版會告訴你接下來 12 個月，愛情、事業、人際、家庭與身心各自要注意什麼。</p></div>' +
-      '<h2>完整版還包含</h2><ul class="full-list">' + ['星盤資料表與相位表', '宮位與五大關鍵相位', '月交點：靈魂的來處與去向', '通道與開放中心完整解讀', '星盤 × 人類圖合成對照輪', '雙系統逐星對照', '三條整合主軸', '天賦地圖 × 陰影地圖', '能量使用說明：工作、關係、休息', '未來 12 個月的天空', '未來一年總結：五大面向', '90 天實踐計畫與關鍵日期'].map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+      '<h2>完整版還包含</h2><ul class="full-list">' + ['星盤資料表與相位表', '宮位與關鍵相位解讀', '月交點：靈魂的來處與去向', '通道與開放中心完整解讀', '星盤 × 人類圖合成對照輪', '雙系統逐星對照', '未來 12 個月的實際行運', '未來一年總結：愛情、事業、人際、家庭、身心', '解讀師親筆的開場信', '專屬的結語與祝福'].map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
       '<div class="offers">' + offer(CFG.upgrade, true) + offer(CFG.consult, false) + '</div>' +
       '<p style="margin-top:5mm;font-size:8.6pt;color:var(--mute);">本報告依你提供的出生資料自動計算產生。星盤與人類圖是自我探索的工具，不能取代醫療、法律或財務等專業意見。</p>',
       6, '04 · 下一步'));

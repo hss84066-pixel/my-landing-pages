@@ -156,6 +156,8 @@ table.dt td.sym{font-family:var(--sym);font-weight:600;}
 .offer .price{font-family:var(--mono);font-size:12pt;font-weight:600;color:var(--gold);}
 .offer ul{margin:0;padding-left:1.1em;font-size:9.4pt;line-height:1.7;color:var(--mute2);}
 .offer .btn{margin-top:auto;}
+.howto{margin:1mm 0 3mm !important;font-size:10.4pt !important;line-height:1.85 !important;color:var(--ink);}
+.kw-chip{display:inline-block;margin:0 1.2mm;padding:.2mm 2.4mm;border-radius:1.2mm;background:var(--gold);color:#11162b;font-weight:900;letter-spacing:.08em;}
 .free-tag{position:absolute;top:8cqw;right:8cqw;font-family:var(--mono);font-size:1.5cqw;font-weight:600;letter-spacing:.2em;color:#0d1226;background:var(--cyan);padding:.5cqw 1.4cqw;border-radius:.3cqw;}
 
 /* 封面（以容器寬度為單位，螢幕與 A4 同比例） */
