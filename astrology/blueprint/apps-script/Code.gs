@@ -7,6 +7,7 @@
  */
 const SENDER_NAME = 'Willy.co';                 // 寄件人顯示名稱
 const REPLY_TO = '';                            // 回覆信箱（留空＝你的 Gmail）
+const SHEET_ID = '';                            // 名單試算表的 ID（留空＝使用綁定的試算表）
 const SITE_ORIGIN = 'https://hss84066-pixel.github.io/my-landing-pages/astrology/blueprint/'; // 網站網址（已填好）
 
 function doPost(e) {
@@ -21,7 +22,7 @@ function doPost(e) {
     const name = String(p.name || '').slice(0, 20);
 
     const lock = LockService.getScriptLock(); lock.waitLock(10000);
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
     const sheet = ss.getSheetByName('名單') || ss.insertSheet('名單');
     if (sheet.getLastRow() === 0) sheet.appendRow(['時間', '名字', 'Email', '出生日期', '出生時間', '出生地', '同意', '報告連結']);
     sheet.appendRow([new Date(), name, email, p.birth || '', p.time || '', p.city || '', p.consent ? '是' : '否', link]);
