@@ -5,7 +5,7 @@ window.BLUEPRINT_CONFIG = {
 
   // 部署 Google Apps Script 後，把網頁應用程式網址貼在這裡（以 /exec 結尾）。
   // 留空時是「測試模式」：送出後直接開啟報告，不會寄信、不會記錄名單。
-  appsScriptUrl: '',
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycby8Mo8WZlJy341JYR67On5z7y8z--lP4w7_IQMswbEsTNli-eyp1ZrHwh3-J-ohrPceeg/exec',
 
   // 第 6 頁的兩個升級方案。url 留空時，按鈕會顯示「即將開放」。
   upgrade: {
