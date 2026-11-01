@@ -31,7 +31,7 @@
 
     // 1 封面
     P.push('<section class="page cover" id="top"><div class="cover-base"></div><div class="cv-art">' + CH.gateWheel(r) + '</div>' +
-      '<div class="cv-top">占星本命盤 × 人類圖</div><span class="free-tag">免費版</span>' +
+      '<div class="cv-top">占星本命盤 × 人類圖</div>' +
       '<h1 class="cv-title">天命<span>藍圖</span></h1><div class="cv-en">CELESTIAL BLUEPRINT</div><div class="cv-coord">' + coord + '</div>' +
       '<div class="cv-info"><div><span class="k">姓名</span><span class="v">' + esc(name) + '</span></div>' +
       '<div><span class="k">出生</span><span class="v">' + dateStr + '<br>' + timeStr + ' ' + esc(inp.c || '') + '</span></div>' +
@@ -105,7 +105,7 @@
       '<div class="tease"><p>此刻，木星正經過你的<b>第 ' + tj.jupiter + ' 宮（' + T.HOUSE[tj.jupiter - 1] + '）</b>，這是 12 年一次在這個領域擴展的時機；土星在你的<b>第 ' + tj.saturn + ' 宮（' + T.HOUSE[tj.saturn - 1] + '）</b>，提醒你在這裡打穩基礎。完整版會告訴你接下來 12 個月，愛情、事業、人際、家庭與身心各自要注意什麼。</p></div>' +
       '<h2>完整版還包含</h2><ul class="full-list">' + ['星盤資料表與相位表', '宮位與關鍵相位解讀', '月交點：靈魂的來處與去向', '通道與開放中心完整解讀', '星盤 × 人類圖合成對照輪', '雙系統逐星對照', '未來 12 個月的實際行運', '未來一年總結：愛情、事業、人際、家庭、身心', '解讀師親筆的開場信', '專屬的結語與祝福'].map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
       '<div class="offers">' + offer(CFG.upgrade, true) + offer(CFG.consult, false) + '</div>' +
-      '<p style="margin-top:5mm;font-size:8.6pt;color:var(--mute);">本報告依你提供的出生資料自動計算產生。星盤與人類圖是自我探索的工具，不能取代醫療、法律或財務等專業意見。</p>',
+      '<div class="legal"><h3>使用須知與免責聲明</h3><dl>' + T.DISCLAIMER.map(function (x) { return '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>'; }).join('') + '</dl></div>',
       6, '04 · 下一步'));
     return P.join('');
   }

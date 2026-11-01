@@ -211,6 +211,11 @@
     P.push(pg('blessing', '結語與祝福', '<div class="part"><b>06</b>結語</div><h1>結語與<span class="t">祝福</span></h1>' +
       note('blessing', '<p style="text-align:center;">（在這裡寫下給' + esc(name) + '的祝福詩或結語。）</p>') +
       '<p style="text-align:center;margin-top:8mm;color:var(--gold);" class="mono">— ' + esc(reader) + '</p>', '06 · 結語'));
+
+    // 使用須知與免責聲明
+    var dl = T.DISCLAIMER.slice(0, 5).concat([T.DISCLAIMER_PRO], T.DISCLAIMER.slice(5));
+    P.push(pg('legal', '使用須知與免責聲明', '<h1 style="margin-top:0;">使用須知與<span class="t">免責聲明</span></h1><p class="key">請在閱讀本報告前，先了解以下內容。</p>' +
+      '<div class="legal big"><dl>' + dl.map(function (x) { return '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>'; }).join('') + '</dl></div>', '附錄'));
     return P.join('');
   }
 

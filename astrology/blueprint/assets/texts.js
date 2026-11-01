@@ -117,5 +117,19 @@
   var TR_POINT = { sun: '自我與方向', moon: '情緒與家庭', mercury: '思考與溝通', venus: '愛情與金錢', mars: '行動力', jupiter: '信念與成長', saturn: '責任與界線', asc: '形象與身體', mc: '事業與名聲' };
   var TR_ASP = { conj: '合', sext: '六合', sq: '刑', tri: '拱', opp: '沖' };
   var TR_TONE = { conj: '強化', sext: '順流', tri: '順流', sq: '調整', opp: '拉扯' };
-  root.BlueprintTexts = { CHANNEL: CHANNEL, TR_PLANET: TR_PLANET, TR_POINT: TR_POINT, TR_ASP: TR_ASP, TR_TONE: TR_TONE, SIGNS: SIGNS, ELEMENTS: ELEMENTS, MODES: MODES, SUN: SUN, MOON: MOON, ASC: ASC, HOUSE: HOUSE, TYPE: TYPE, AUTH: AUTH, LINE: LINE, ANGLE: ANGLE, CENTER_ZH: CENTER_ZH, OPEN: OPEN, OPEN_ORDER: OPEN_ORDER, WEAK: WEAK, STRONG: STRONG };
+
+  // 使用須知與免責聲明（免費版與完整版共用；完整版另加 PRO 條款）
+  var DISCLAIMER = [
+    ['內容性質', '本報告依你提供的出生日期、時間與地點，以西洋占星與人類圖系統計算並整理而成，屬於自我探索與生活參考用途，不是科學實證，也不是對未來的預測或保證。'],
+    ['不是宿命論', '報告描述的是傾向與可能性，不代表命運已經注定。每個人的選擇、努力與環境都會改變結果，你永遠擁有決定自己人生的權利。'],
+    ['不指示你做任何決定', '報告不要求、也不建議你做或不做任何特定行為。是否參考報告內容、如何行動，都由你自行判斷，並由你自己承擔決定的結果。'],
+    ['不是專業意見', '本報告不構成醫療、心理治療、法律、財務、投資、職涯或感情等專業意見，也不能取代醫師、心理師、律師、會計師等專業人士的診斷與建議。有身心健康或其他重大困擾時，請尋求專業協助。'],
+    ['資料與準確性', '計算結果取決於你提供的出生資料，出生時間或地點不準確會影響結果。我們盡力確保計算正確，但不保證內容完全無誤或適用於每一種情況。'],
+    ['責任限制', '在法律允許的範圍內，本品牌與解讀者對於因使用、參考或信賴本報告內容所產生的任何直接或間接損失，不負賠償責任。'],
+    ['未成年人', '未滿 18 歲者，應在法定代理人同意與陪同下閱讀與使用本報告。'],
+    ['著作權與個資', '報告的文字、圖表與設計受著作權保護，僅供你個人使用，未經書面同意不得轉載、改作或商業使用。你提供的資料僅用於產生報告與提供相關服務，可隨時要求刪除。'],
+    ['同意', '閱讀或使用本報告，即表示你已了解並同意以上內容。']
+  ];
+  var DISCLAIMER_PRO = ['解讀師觀點', '完整版中由解讀師撰寫的文字，是解讀師依專業經驗提出的個人詮釋與觀點，僅供參考，不代表唯一或絕對的答案。'];
+  root.BlueprintTexts = { DISCLAIMER: DISCLAIMER, DISCLAIMER_PRO: DISCLAIMER_PRO, CHANNEL: CHANNEL, TR_PLANET: TR_PLANET, TR_POINT: TR_POINT, TR_ASP: TR_ASP, TR_TONE: TR_TONE, SIGNS: SIGNS, ELEMENTS: ELEMENTS, MODES: MODES, SUN: SUN, MOON: MOON, ASC: ASC, HOUSE: HOUSE, TYPE: TYPE, AUTH: AUTH, LINE: LINE, ANGLE: ANGLE, CENTER_ZH: CENTER_ZH, OPEN: OPEN, OPEN_ORDER: OPEN_ORDER, WEAK: WEAK, STRONG: STRONG };
 })(typeof self !== 'undefined' ? self : this);

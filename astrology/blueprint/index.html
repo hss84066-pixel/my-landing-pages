@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#0a0e1d">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Symbols:wght@400;600&family=Cinzel:wght@600&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=4">
+<link rel="stylesheet" href="assets/style.css?v=5">
 </head>
 <body>
 <header class="bar"><div class="bar-in"><a class="brand" href="./">天命藍圖 <small>CELESTIAL BLUEPRINT</small></a></div></header>
@@ -39,20 +39,20 @@
       </div>
       <div class="field full"><label for="email">Email（報告會寄到這裡）</label><input id="email" name="email" type="email" autocomplete="email" required></div>
       <div class="hp" aria-hidden="true"><label for="website">網站</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-      <label class="consent" for="consent"><input id="consent" type="checkbox"><span>我同意提供姓名、出生資料與 Email，用於產生並寄送本報告，以及接收相關的解讀與課程資訊；我可以隨時要求停止接收或刪除資料。</span></label>
+      <label class="consent" for="consent"><input id="consent" type="checkbox"><span>我同意提供姓名、出生資料與 Email，用於產生並寄送本報告，以及接收相關的解讀與課程資訊；我可以隨時要求停止接收或刪除資料。我了解本報告僅供自我探索參考，不是對未來的預測或保證，也不構成任何專業建議。</span></label>
       <p class="msg" id="msg" hidden role="status" aria-live="polite"></p>
       <button class="btn btn-main" id="submit" type="submit">寄給我我的天命藍圖</button>
     </form>
   </div>
   <aside class="art" aria-label="64 閘門輪預覽"><figure><div id="art"></div><figcaption id="artcap">填好出生日期、時間和地點後，這裡會換成你自己的 64 閘門輪。</figcaption></figure></aside>
 </main>
-<footer class="foot">© <span id="yr"></span> <span id="brandname"></span>。星盤與人類圖是自我探索的工具，不能取代醫療、法律或財務等專業意見。</footer>
-<script src="assets/config.js?v=4"></script>
-<script src="vendor/astronomy.browser.min.js?v=4"></script>
-<script src="assets/astro.js?v=4"></script>
-<script src="assets/charts.js?v=4"></script>
-<script src="assets/cities.js?v=4"></script>
-<script src="assets/app.js?v=4"></script>
+<footer class="foot">© <span id="yr"></span> <span id="brandname"></span>。本網站與報告內容僅供自我探索與生活參考，不是對未來的預測或保證，也不構成醫療、心理、法律、財務或投資等專業建議；任何決定請自行判斷並承擔結果。</footer>
+<script src="assets/config.js?v=5"></script>
+<script src="vendor/astronomy.browser.min.js?v=5"></script>
+<script src="assets/astro.js?v=5"></script>
+<script src="assets/charts.js?v=5"></script>
+<script src="assets/cities.js?v=5"></script>
+<script src="assets/app.js?v=5"></script>
 <script>document.getElementById('yr').textContent=new Date().getFullYear();document.getElementById('brandname').textContent=(window.BLUEPRINT_CONFIG||{}).brand||'';</script>
 </body>
 </html>
