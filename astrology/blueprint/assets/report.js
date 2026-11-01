@@ -96,7 +96,7 @@
     // 6 升級
     function offer(o, main) {
       if (!o) return '';
-      var btn = o.url ? '<a class="btn ' + (main ? 'btn-main' : 'btn-ghost') + '" href="' + esc(o.url) + '" target="_blank" rel="noopener">' + (main ? '升級完整版' : '預約諮詢') + '</a>' : '<span class="btn ' + (main ? 'btn-main' : 'btn-ghost') + '" aria-disabled="true">即將開放</span>';
+      var btn = o.url ? '<a class="btn ' + (main ? 'btn-main' : 'btn-ghost') + '" href="' + esc(o.url) + '" target="_blank" rel="noopener">' + esc(o.cta || (main ? '升級完整版' : '預約諮詢')) + '</a>' : '<span class="btn ' + (main ? 'btn-main' : 'btn-ghost') + '" aria-disabled="true">即將開放</span>';
       return '<div class="offer' + (main ? ' main' : '') + '"><h3>' + esc(o.title) + '</h3>' + (o.price ? '<div class="price">' + esc(o.price) + '</div>' : '') + '<ul>' + (o.points || []).map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' + btn + '</div>';
     }
     var tj = r.transit;
