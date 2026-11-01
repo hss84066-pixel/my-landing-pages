@@ -7,7 +7,7 @@
  */
 const SENDER_NAME = 'Willy.co';                 // 寄件人顯示名稱
 const REPLY_TO = '';                            // 回覆信箱（留空＝你的 Gmail）
-const SITE_ORIGIN = '';                         // 例如 'https://你的帳號.github.io/blueprint/'；留空則接受網站傳來的連結
+const SITE_ORIGIN = 'https://hss84066-pixel.github.io/my-landing-pages/astrology/blueprint/'; // 網站網址（已填好）
 
 function doPost(e) {
   try {
